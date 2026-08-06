@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Eksponen SMA - Quiz & Rangkuman Interaktif</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- KaTeX CDN for High Quality Math Formulas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        .katex {
+            font-size: 1.1em;
+        }
+
+        .custom-glass {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+        }
+
+        .gradient-card {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        }
+
+        /* Smooth transition effects for interactive choices */
+        .opt-transition {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased">
+
+    <!-- HEADER NAVBAR -->
+    <header class="bg-indigo-600 text-white shadow-md sticky top-0 z-40 border-b border-indigo-500/30">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3 cursor-pointer group" onclick="showSection('home')">
+                <div class="bg-white text-indigo-600 w-10 h-10 rounded-xl flex items-center justify-center font-black text-xl shadow group-hover:scale-105 transition-transform">
+                    $a^x$
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-lg sm:text-xl leading-tight">Master Eksponen SMA</h1>
+                    <p class="text-indigo-200 text-xs hidden sm:block">Modul Rangkuman & 40 Soal Interaktif</p>
+                </div>
+            </div>
+            
+            <nav class="flex items-center space-x-2">
+                <button onclick="showSection('cheatsheet')" class="px-3 py-2 rounded-xl bg-indigo-700/80 hover:bg-indigo-800 text-xs sm:text-sm font-semibold transition flex items-center gap-2">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>Rangkuman Sifat</span>
+                </button>
+                <button onclick="showSection('quiz-select')" class="px-3 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-xs sm:text-sm font-bold shadow transition flex items-center gap-2">
+                    <i class="fa-solid fa-play"></i>
+                    <span>Mulai Quiz</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-5xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- SECTION 1: HOME LANDING PAGE -->
+        <section id="sec-home" class="space-y-6">
+            <!-- Hero Banner -->
+            <div class="gradient-card rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden">
+                <div class="relative z-10 max-w-2xl space-y-4">
+                    <span class="bg-indigo-400/30 text-indigo-100 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider inline-block">
+                        Matematika Kelas 10 - 12 SMA
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl font-black leading-tight">
+                        Sering Lupa Sifat Eksponen?
+                    </h2>
+                    <p class="text-indigo-100 text-sm sm:text-base leading-relaxed">
+                        Latih dan tingkatkan ingatanmu secara bertahap! Mulai dari pelajari rangkuman sifat dasar dengan contoh konkret, lalu uji kemampuanmu lewat 40 soal bertingkat dari Mudah, Sedang, hingga Sukar.
+                    </p>
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <button onclick="showSection('cheatsheet')" class="bg-white text-indigo-700 hover:bg-indigo-50 px-6 py-3 rounded-xl font-extrabold text-sm shadow-lg transition flex items-center gap-2">
+                            <i class="fa-solid fa-book"></i> Pelajari Rangkuman Sifat
+                        </button>
+                        <button onclick="showSection('quiz-select')" class="bg-emerald-400 hover:bg-emerald-500 text-slate-900 px-6 py-3 rounded-xl font-extrabold text-sm shadow-lg transition flex items-center gap-2">
+                            <i class="fa-solid fa-gamepad"></i> Pilih Level Quiz (40 Soal)
+                        </button>
+                    </div>
+                </div>
+                <!-- Background Graphic Element -->
+                <div class="absolute -right-8 -bottom-12 opacity-15 text-[200px] font-black select-none pointer-events-none">
+                    $2^n$
+                </div>
+            </div>
+
+            <!-- Difficulty Level Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-start space-x-4 hover:border-emerald-300 transition">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl font-black shrink-0">
+                        15
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800">Level Mudah</h3>
+                        <p class="text-xs text-slate-500 mt-1">Menguji pemahaman langsung sifat-sifat dasar & hitungan sederhana.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-start space-x-4 hover:border-amber-300 transition">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl font-black shrink-0">
+                        15
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800">Level Sedang</h3>
+                        <p class="text-xs text-slate-500 mt-1">Gabungan beberapa sifat, pangkat pecahan, & persamaan sederhana.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-start space-x-4 hover:border-rose-300 transition">
+                    <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-xl font-black shrink-0">
+                        10
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800">Level Sukar</h3>
+                        <p class="text-xs text-slate-500 mt-1">Persamaan kuadrat eksponen, akar bersarang, & variasi HOTS SMA.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: CHEATSHEET SIFAT-SIFAT EKSPONEN -->
+        <section id="sec-cheatsheet" class="hidden space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-indigo-50 p-6 rounded-2xl border border-indigo-100">
+                <div>
+                    <h2 class="text-2xl font-bold text-indigo-900 flex items-center gap-2">
+                        <i class="fa-solid fa-lightbulb text-amber-500"></i> Rangkuman Sifat Eksponen
+                    </h2>
+                    <p class="text-slate-600 text-xs sm:text-sm mt-1">
+                        Pahami konsep ini dengan baik. Mengingat sifat eksponen membuat penyelesaian soal terasa cepat dan gampang!
+                    </p>
+                </div>
+                <button onclick="startQuiz('easy')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm shadow transition whitespace-nowrap">
+                    Mulai Dari Level Mudah <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+
+            <!-- Grid Sifat-Sifat -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Sifat 1 -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold px-3 py-1 bg-indigo-100 text-indigo-700 rounded-lg">1. Perkalian Basis Sama</span>
+                    </div>
+                    <div class="text-center py-3 bg-slate-50 rounded-xl my-2 font-bold text-lg text-indigo-600">
+                        $$a^m \cdot a^n = a^{m+n}$$
+                    </div>
+                    <p class="text-xs text-slate-600">Jika basisnya <b>sama</b> dan dikalikan, maka pangkatnya <b>dijumlahkan</b>.</p>
+                    <div class="bg-emerald-50 p-3 rounded-xl text-xs border border-emerald-100 text-emerald-800 font-medium">
+                        <b>Contoh:</b> $2^3 \cdot 2^4 = 2^{3+4} = 2^7 = 128$
+                    </div>
+                </div>
+
+                <!-- Sifat 2 -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold px-3 py-1 bg-indigo-100 text-indigo-700 rounded-lg">2. Pembagian Basis Sama</span>
+                    </div>
+                    <div class="text-center py-3 bg-slate-50 rounded-xl my-2 font-bold text-lg text-indigo-600">
+                        $$\frac{a^m}{a^n} = a^{m-n} \quad (a \neq 0)$$
+                    </div>
+                    <p class="text-xs text-slate-600">Jika basisnya <b>sama</b> dan dibagi, maka pangkatnya <b>dikurangi</b>.</p>
+                    <div class="bg-emerald-50 p-3 rounded-xl text-xs border border-emerald-100 text-emerald-800 font-medium">
+                        <b>Contoh:</b> $\frac{3^6}{3^2} = 3^{6-2} = 3^4 = 81$
+                    </div>
+                </div>
+
+                <!-- Sifat 3 -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold px-3 py-1 bg-indigo-100 text-indigo-700 rounded-lg">3. Perpangkatan Pangkat</span>
+                    </div>
+                    <div class="text-center py-3 bg-slate-50 rounded-xl my-2 font-bold text-lg text-indigo-600">
+                        $$(a^m)^n = a^{m \cdot n}$$
+                    </div>
+                    <p class="text-xs text-slate-600">Jika bilangan berpangkat dipangkatkan lagi, pangkatnya <b>dikalikan</b>.</p>
+                    <div class="bg-emerald-50 p-3 rounded-xl text-xs border border-emerald-100 text-emerald-800 font-medium">
+                        <b>Contoh:</b> $(5^2)^3 = 5^{2 \times 3} = 5^6 = 15625$
+                    </div>
+                </div>
+
+                <!-- Sifat 4 -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold px-3 py-1 bg-indigo-100 text-indigo-700 rounded-lg">4. Perkalian Dipangkatkan</span>
+                    </div>
+                    <div class="text-center py-3 bg-slate-50 rounded-xl my-2 font-bold text-lg text-indigo-600">
+                        $$(a \cdot b)^n = a^n \cdot b^n$$
+                    </div>
+                    <p class="text-xs text-slate-600">Pangkat berlaku untuk <b>setiap faktor</b> di dalam kurung.</p>
+                    <div class="bg-emerald-50 p-3 rounded-xl text-xs border border-emerald-100 text-emerald-800 font-medium">
+                        <b>Contoh:</b> $(2x)^3 = 2^3 \cdot x^3 = 8x^3$
+                    </div>
+                </div>
+
+                <!-- Sifat 5 -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold px-3 py-1 bg-indigo-100 text-indigo-700 rounded-lg">5. Pembagian Dipangkatkan</span>
+                    </div>
+                    <div class="text-center py-3 bg-slate-50 rounded-xl my-2 font-bold text-lg text-indigo-600">
+                        $$\left(\frac{a}{b}\right)^n = \frac{a^n}{b^n} \quad (b \neq 0)$$
+                    </div>
+                    <p class="text-xs text-slate-600">Pangkat berlaku untuk pembilang dan penyebut.</p>
+                    <div class="bg-emerald-50 p-3 rounded-xl text-xs border border-emerald-100 text-emerald-800 font-medium">
+                        <b>Contoh:</b> $\left(\frac{2}{3}\right)^3 = \frac{2^3}{3^3} = \frac{8}{27}$
+                    </div>
+                </div>
+
+                <!-- Sifat 6 -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold px-3 py-1 bg-indigo-100 text-indigo-700 rounded-lg">6. Pangkat Nol</span>
+                    </div>
+                    <div class="text-center py-3 bg-slate-50 rounded-xl my-2 font-bold text-lg text-indigo-600">
+                        $$a^0 = 1 \quad (a \neq 0)$$
+                    </div>
+                    <p class="text-xs text-slate-600">Semua bilangan bukan nol jika dipangkatkan $0$ hasilnya adalah $1$.</p>
+                    <div class="bg-emerald-50 p-3 rounded-xl text-xs border border-emerald-100 text-emerald-800 font-medium">
+                        <b>Contoh:</b> $999^0 = 1$ dan $(-5)^0 = 1$
+                    </div>
+                </div>
+
+                <!-- Sifat 7 -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold px-3 py-1 bg-indigo-100 text-indigo-700 rounded-lg">7. Pangkat Negatif</span>
+                    </div>
+                    <div class="text-center py-3 bg-slate-50 rounded-xl my-2 font-bold text-lg text-indigo-600">
+                        $$a^{-n} = \frac{1}{a^n} \quad \text{dan} \quad \left(\frac{a}{b}\right)^{-n} = \left(\frac{b}{a}\right)^n$$
+                    </div>
+                    <p class="text-xs text-slate-600">Pangkat negatif menunjukkan posisi kebalikan (pembilang $\leftrightarrow$ penyebut).</p>
+                    <div class="bg-emerald-50 p-3 rounded-xl text-xs border border-emerald-100 text-emerald-800 font-medium">
+                        <b>Contoh:</b> $4^{-2} = \frac{1}{4^2} = \frac{1}{16}$
+                    </div>
+                </div>
+
+                <!-- Sifat 8 -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold px-3 py-1 bg-indigo-100 text-indigo-700 rounded-lg">8. Pangkat Pecahan / Akar</span>
+                    </div>
+                    <div class="text-center py-3 bg-slate-50 rounded-xl my-2 font-bold text-lg text-indigo-600">
+                        $$a^{\frac{m}{n}} = \sqrt[n]{a^m}$$
+                    </div>
+                    <p class="text-xs text-slate-600">Penyebut pada pangkat pecahan menjadi indeks luar akar.</p>
+                    <div class="bg-emerald-50 p-3 rounded-xl text-xs border border-emerald-100 text-emerald-800 font-medium">
+                        <b>Contoh:</b> $8^{\frac{2}{3}} = \sqrt[3]{8^2} = \sqrt[3]{64} = 4$
+                    </div>
+                </div>
+            </div>
+
+            <!-- Common Pitfalls Warning -->
+            <div class="bg-amber-50 border border-amber-200 p-5 rounded-2xl text-xs sm:text-sm text-amber-900 space-y-2">
+                <h4 class="font-bold text-amber-800 text-base flex items-center gap-2">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-600"></i> Catatan Penting (Jebakan yang Sering Bikin Keliru!):
+                </h4>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li><b>Membedakan Kurung:</b> $(-2)^4 = 16$ (karena $-2$ dipangkatkan genap), TETAPI $-2^4 = -16$ (pangkat $4$ hanya milik angka $2$, tanda minus di luar).</li>
+                    <li><b>Penjumlahan Basis Sama:</b> $2^3 + 2^3 \neq 2^6$! Sifat perkalian $a^m \cdot a^n = a^{m+n}$ HANYA berlaku untuk <b>perkalian</b>. Untuk penjumlahan: $2^3 + 2^3 = 2 \cdot (2^3) = 2^4$.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SECTION 3: SELECT QUIZ MODE -->
+        <section id="sec-quiz-select" class="hidden space-y-6">
+            <div class="text-center max-w-xl mx-auto space-y-2">
+                <h2 class="text-3xl font-extrabold text-slate-800">Pilih Tingkat Kesulitan</h2>
+                <p class="text-slate-500 text-xs sm:text-sm">Pilih level sesuai tingkat pemahamanmu saat ini atau coba mode Marathon untuk melatih seluruh soal!</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+                <!-- Level Easy Card -->
+                <div class="bg-white rounded-3xl border-2 border-emerald-100 p-6 shadow-sm hover:shadow-xl hover:border-emerald-500 transition text-center flex flex-col justify-between space-y-4">
+                    <div class="space-y-3">
+                        <div class="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl font-bold mx-auto">
+                            <i class="fa-solid fa-seedling"></i>
+                        </div>
+                        <h3 class="text-xl font-extrabold text-slate-800">Level Mudah</h3>
+                        <p class="text-xs text-slate-500">15 Soal dasar. Sangat bagus untuk pemanasan & pengingat langsung sifat-sifat eksponen.</p>
+                    </div>
+                    <button onclick="startQuiz('easy')" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl shadow transition">
+                        Mulai Mudah (15 Soal)
+                    </button>
+                </div>
+
+                <!-- Level Medium Card -->
+                <div class="bg-white rounded-3xl border-2 border-amber-100 p-6 shadow-sm hover:shadow-xl hover:border-amber-500 transition text-center flex flex-col justify-between space-y-4">
+                    <div class="space-y-3">
+                        <div class="w-16 h-16 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl font-bold mx-auto">
+                            <i class="fa-solid fa-fire"></i>
+                        </div>
+                        <h3 class="text-xl font-extrabold text-slate-800">Level Sedang</h3>
+                        <p class="text-xs text-slate-500">15 Soal tingkat menengah. Menggabungkan aljabar, pangkat pecahan, & persamaan linier.</p>
+                    </div>
+                    <button onclick="startQuiz('medium')" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 rounded-xl shadow transition">
+                        Mulai Sedang (15 Soal)
+                    </button>
+                </div>
+
+                <!-- Level Hard Card -->
+                <div class="bg-white rounded-3xl border-2 border-rose-100 p-6 shadow-sm hover:shadow-xl hover:border-rose-500 transition text-center flex flex-col justify-between space-y-4">
+                    <div class="space-y-3">
+                        <div class="w-16 h-16 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-2xl font-bold mx-auto">
+                            <i class="fa-solid fa-dragon"></i>
+                        </div>
+                        <h3 class="text-xl font-extrabold text-slate-800">Level Sukar</h3>
+                        <p class="text-xs text-slate-500">10 Soal tantangan SMA. Persamaan kuadrat eksponen, akar tak hingga, & variasi HOTS.</p>
+                    </div>
+                    <button onclick="startQuiz('hard')" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 rounded-xl shadow transition">
+                        Mulai Sukar (10 Soal)
+                    </button>
+                </div>
+            </div>
+
+            <!-- All 40 Marathon Option -->
+            <div class="bg-indigo-950 text-white rounded-3xl p-6 flex flex-col sm:flex-row justify-between items-center gap-4 shadow-xl">
+                <div class="space-y-1 text-center sm:text-left">
+                    <h4 class="font-extrabold text-lg flex items-center justify-center sm:justify-start gap-2 text-amber-400">
+                        <i class="fa-solid fa-trophy"></i> Mode Marathon Total 40 Soal
+                    </h4>
+                    <p class="text-xs text-indigo-200">Uji kemampuan penuh secara berurutan: 15 Mudah $\rightarrow$ 15 Sedang $\rightarrow$ 10 Sukar.</p>
+                </div>
+                <button onclick="startQuiz('all')" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-black px-6 py-3 rounded-2xl shadow whitespace-nowrap transition">
+                    Mulai Marathon (40 Soal)
+                </button>
+            </div>
+        </section>
+
+        <!-- SECTION 4: ACTIVE QUIZ PLAY VIEW -->
+        <section id="sec-quiz-play" class="hidden space-y-6">
+            <!-- Progress Header -->
+            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center space-x-2">
+                        <span id="quiz-level-badge" class="px-3 py-1 rounded-full text-xs font-extrabold bg-indigo-100 text-indigo-700">Level Mudah</span>
+                        <span id="quiz-progress-text" class="text-xs font-semibold text-slate-500">Soal 1 dari 15</span>
+                    </div>
+                    <button onclick="openExitModal()" class="text-slate-400 hover:text-rose-500 text-xs font-bold flex items-center gap-1 transition">
+                        <i class="fa-solid fa-xmark"></i> Keluar
+                    </button>
+                </div>
+
+                <!-- Animated Progress Bar -->
+                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                    <div id="quiz-progress-bar" class="bg-indigo-600 h-full w-0 transition-all duration-300"></div>
+                </div>
+            </div>
+
+            <!-- Question & Choices Card -->
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-md space-y-6">
+                <!-- Question Box -->
+                <div class="space-y-2">
+                    <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider">Pertanyaan:</span>
+                    <div id="question-container" class="text-lg sm:text-xl font-bold text-slate-800 leading-relaxed min-h-[60px] flex items-center">
+                        <!-- KaTeX Question Rendered Here -->
+                    </div>
+                </div>
+
+                <!-- Multiple Choice Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="options-container">
+                    <!-- Option buttons rendered dynamically by JS -->
+                </div>
+
+                <!-- Hint Helper -->
+                <div class="pt-2 border-t border-slate-100 flex justify-between items-center">
+                    <button onclick="toggleHint()" class="text-xs text-amber-700 font-bold flex items-center gap-1.5 bg-amber-50 hover:bg-amber-100 px-3.5 py-2 rounded-xl transition">
+                        <i class="fa-solid fa-lightbulb text-amber-500"></i> <span id="hint-btn-text">Lihat Petunjuk Sifat</span>
+                    </button>
+                </div>
+
+                <!-- Hint Content Box -->
+                <div id="hint-box" class="hidden bg-amber-50 border border-amber-200 p-4 rounded-2xl text-xs text-amber-900 space-y-1">
+                    <span class="font-extrabold flex items-center gap-1"><i class="fa-solid fa-circle-info"></i> Petunjuk / Sifat Terkait:</span>
+                    <p id="hint-text" class="leading-relaxed"></p>
+                </div>
+
+                <!-- Explanation Box -->
+                <div id="explanation-box" class="hidden p-5 rounded-2xl space-y-2 text-sm border">
+                    <div id="explanation-header" class="font-bold flex items-center gap-2 text-base"></div>
+                    <div id="explanation-text" class="text-slate-700 leading-relaxed"></div>
+                </div>
+
+                <!-- Next Button -->
+                <div class="flex justify-end pt-2">
+                    <button id="next-btn" onclick="nextQuestion()" disabled class="opacity-50 cursor-not-allowed bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-8 py-3 rounded-xl shadow transition flex items-center gap-2">
+                        Soal Berikutnya <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: QUIZ RESULTS & REVIEW -->
+        <section id="sec-results" class="hidden space-y-6">
+            <!-- Score Overview Card -->
+            <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-xl text-center space-y-6 max-w-2xl mx-auto">
+                <div id="result-icon-container" class="w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-4xl shadow-inner">
+                    <!-- Dynamic Icon -->
+                </div>
+
+                <div class="space-y-1">
+                    <h2 id="result-title" class="text-2xl sm:text-3xl font-extrabold text-slate-800">Hasil Quiz</h2>
+                    <p id="result-subtitle" class="text-xs sm:text-sm text-slate-500">Kerja bagus telah menyelesaikan latihan!</p>
+                </div>
+
+                <!-- Score Numbers -->
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 inline-block w-full space-y-3">
+                    <div class="text-5xl font-black text-indigo-600" id="result-score-num">0</div>
+                    <div class="flex justify-center gap-6 text-xs sm:text-sm font-bold text-slate-600">
+                        <span class="text-emerald-600"><i class="fa-solid fa-circle-check mr-1"></i> Benar: <b id="result-correct-count">0</b></span>
+                        <span class="text-rose-500"><i class="fa-solid fa-circle-xmark mr-1"></i> Salah: <b id="result-wrong-count">0</b></span>
+                        <span class="text-slate-500"><i class="fa-solid fa-clock mr-1"></i> Total: <b id="result-total-count">0</b></span>
+                    </div>
+                </div>
+
+                <!-- Action Controls -->
+                <div class="flex flex-wrap gap-3 justify-center pt-2">
+                    <button onclick="restartCurrentQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-bold text-sm shadow transition flex items-center gap-2">
+                        <i class="fa-solid fa-rotate-right"></i> Coba Lagi Level Ini
+                    </button>
+                    <button onclick="showSection('quiz-select')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-6 py-3 rounded-xl font-bold text-sm transition flex items-center gap-2">
+                        <i class="fa-solid fa-list"></i> Pilih Level Lain
+                    </button>
+                </div>
+            </div>
+
+            <!-- Review Questions List -->
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                <h3 class="font-extrabold text-lg text-slate-800 flex items-center gap-2">
+                    <i class="fa-solid fa-magnifying-glass-chart text-indigo-600"></i> Review Pembahasan Soal
+                </h3>
+                <div id="review-list-container" class="space-y-4">
+                    <!-- Detailed solutions rendered by JS -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- EXIT CONFIRMATION MODAL -->
+    <div id="exit-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl">
+            <div class="w-12 h-12 bg-rose-100 text-rose-500 rounded-2xl flex items-center justify-center text-xl mx-auto font-bold">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 class="font-extrabold text-lg text-slate-800">Keluar Dari Quiz?</h3>
+            <p class="text-xs text-slate-500">Progres pengerjaan saat ini tidak akan tersimpan.</p>
+            <div class="flex gap-2 pt-2">
+                <button onclick="closeExitModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs transition">
+                    Lanjutkan
+                </button>
+                <button onclick="confirmExitToMenu()" class="w-1/2 bg-rose-500 hover:bg-rose-600 text-white font-bold py-2.5 rounded-xl text-xs transition shadow">
+                    Ya, Keluar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 py-4 mt-8">
+        <div class="max-w-6xl mx-auto px-4 text-center text-xs text-slate-400 font-medium">
+            Master Eksponen SMA &copy; 2026 &bull; Modul & Quiz Interaktif Matematika
+        </div>
+    </footer>
+
+    <script>
+        const ALL_QUESTIONS = {
+            easy: [
+                {
+                    q: "Bentuk sederhana dari $2^3 \\times 2^4$ adalah...",
+                    opts: ["$2^{12}$", "$2^1$", "$4^7$", "$2^7$"],
+                    ans: 3,
+                    hint: "Gunakan Sifat 1: $a^m \\cdot a^n = a^{m+n}$",
+                    exp: "Karena basisnya sama ($2$), jumlahkan pangkatnya: $2^3 \\times 2^4 = 2^{3+4} = 2^7 = 128$."
+                },
+                {
+                    q: "Hasil dari $\\frac{3^6}{3^2}$ adalah...",
+                    opts: ["$3^3$", "$3^8$", "$3^4$", "$3^{12}$"],
+                    ans: 2,
+                    hint: "Gunakan Sifat 2: $\\frac{a^m}{a^n} = a^{m-n}$",
+                    exp: "Kurangi pangkat pembilang dengan penyebut: $\\frac{3^6}{3^2} = 3^{6-2} = 3^4 = 81$."
+                },
+                {
+                    q: "Nilai dari $(5^2)^3$ sama dengan...",
+                    opts: ["$5^5$", "$5^6$", "$5^8$", "$25^3$"],
+                    ans: 1,
+                    hint: "Gunakan Sifat 3: $(a^m)^n = a^{m \\cdot n}$",
+                    exp: "Kalikan kedua pangkatnya: $(5^2)^3 = 5^{2 \\times 3} = 5^6$."
+                },
+                {
+                    q: "Bentuk sederhana dari $(2a^3b^2)^3$ adalah...",
+                    opts: ["$8a^9b^6$", "$6a^6b^5$", "$8a^6b^5$", "$6a^9b^6$"],
+                    ans: 0,
+                    hint: "Gunakan Sifat 4: Terapkan pangkat 3 ke angka 2, $a^3$, dan $b^2$.",
+                    exp: "$(2a^3b^2)^3 = 2^3 \\cdot (a^3)^3 \\cdot (b^2)^3 = 8 a^9 b^6$."
+                },
+                {
+                    q: "Nilai dari $7^0 + (-3)^0 + \\left(\\frac{1}{2}\\right)^0$ adalah...",
+                    opts: ["$0$", "$1$", "$5$", "$3$"],
+                    ans: 3,
+                    hint: "Gunakan Sifat 6: Setiap bilangan bukan nol jika dipangkatkan 0 bernilai 1.",
+                    exp: "$7^0 = 1$, $(-3)^0 = 1$, dan $\\left(\\frac{1}{2}\\right)^0 = 1$. Hasil: $1 + 1 + 1 = 3$."
+                },
+                {
+                    q: "Bentuk eksponen positif dari $4^{-3}$ adalah...",
+                    opts: ["$-64$", "$\\frac{1}{64}$", "$-\\frac{1}{64}$", "$12$"],
+                    ans: 1,
+                    hint: "Gunakan Sifat 7: $a^{-n} = \\frac{1}{a^n}$",
+                    exp: "$4^{-3} = \\frac{1}{4^3} = \\frac{1}{64}$."
+                },
+                {
+                    q: "Nilai dari $8^{\\frac{2}{3}}$ adalah...",
+                    opts: ["$2$", "$6$", "$16$", "$4$"],
+                    ans: 3,
+                    hint: "Ubah 8 menjadi $2^3$, lalu kalikan pangkat dengan $\\frac{2}{3}$.",
+                    exp: "$8^{\\frac{2}{3}} = (2^3)^{\\frac{2}{3}} = 2^{3 \\times \\frac{2}{3}} = 2^2 = 4$."
+                },
+                {
+                    q: "Bentuk akar dari $x^{\\frac{3}{5}}$ adalah...",
+                    opts: ["$\\sqrt[3]{x^5}$", "$3\\sqrt{x^5}$", "$\\sqrt[5]{x^3}$", "$5\\sqrt{x^3}$"],
+                    ans: 2,
+                    hint: "Gunakan Sifat 8: $a^{\\frac{m}{n}} = \\sqrt[n]{a^m}$. Pembilang di dalam, penyebut indeks akar.",
+                    exp: "Penyebut $5$ menjadi indeks akar, pembilang $3$ menjadi pangkat di dalam akar: $\\sqrt[5]{x^3}$."
+                },
+                {
+                    q: "Hasil perkalian $a^5 \\cdot a^{-2} \\cdot a^3$ adalah...",
+                    opts: ["$a^6$", "$a^{10}$", "$a^0$", "$a^{-30}$"],
+                    ans: 0,
+                    hint: "Jumlahkan semua pangkatnya: $5 + (-2) + 3$.",
+                    exp: "$a^{5 + (-2) + 3} = a^6$."
+                },
+                {
+                    q: "Nilai dari $\\left(\\frac{2}{3}\\right)^{-2}$ adalah...",
+                    opts: ["$-\\frac{4}{9}$", "$\\frac{4}{9}$", "$\\frac{9}{4}$", "$-\\frac{9}{4}$"],
+                    ans: 2,
+                    hint: "Pangkat negatif membalikkan pecahan: $\\left(\\frac{a}{b}\\right)^{-n} = \\left(\\frac{b}{a}\\right)^n$",
+                    exp: "$\\left(\\frac{2}{3}\\right)^{-2} = \\left(\\frac{3}{2}\\right)^2 = \\frac{3^2}{2^2} = \\frac{9}{4}$."
+                },
+                {
+                    q: "Jika $3^x = 81$, maka nilai $x$ adalah...",
+                    opts: ["$2$", "$3$", "$5$", "$4$"],
+                    ans: 3,
+                    hint: "Samakan basisnya: $81 = 3^?$",
+                    exp: "Ubah $81$ menjadi $3^4$. Karena $3^x = 3^4$, maka $x = 4$."
+                },
+                {
+                    q: "Bentuk sederhana dengan pangkat positif dari $\\frac{a^{-2}b^3}{a^1b^{-1}}$ adalah...",
+                    opts: ["$\\frac{a^3}{b^4}$", "$\\frac{b^4}{a^3}$", "$a b^2$", "$a^{-1}b^2$"],
+                    ans: 1,
+                    hint: "Pindahkan pangkat negatif: $a^{-2}$ ke bawah jadi $a^2$, $b^{-1}$ ke atas jadi $b^1$.",
+                    exp: "$\\frac{a^{-2}b^3}{a^1b^{-1}} = a^{-2-1} b^{3-(-1)} = a^{-3} b^4 = \\frac{b^4}{a^3}$."
+                },
+                {
+                    q: "Nilai dari $25^{\\frac{1}{2}} \\times 27^{\\frac{1}{3}}$ adalah...",
+                    opts: ["$8$", "$12$", "$15$", "$30$"],
+                    ans: 2,
+                    hint: "$25^{\\frac{1}{2}} = \\sqrt{25}$ dan $27^{\\frac{1}{3}} = \\sqrt[3]{27}$.",
+                    exp: "$25^{\\frac{1}{2}} = 5$ dan $27^{\\frac{1}{3}} = 3$. Hasil perkalian: $5 \\times 3 = 15$."
+                },
+                {
+                    q: "Hasil dari $(-2)^4$ dan $-2^4$ berturut-turut adalah...",
+                    opts: ["$16$ dan $16$", "$-16$ dan $16$", "$16$ dan $-16$", "$-16$ dan $-16$"],
+                    ans: 2,
+                    hint: "Ingat aturan kurung! $(-2)^4$ minus dipangkatkan, $-2^4$ minus di luar.",
+                    exp: "$(-2)^4 = 16$. Sedangkan $-2^4 = -(2^4) = -16$."
+                },
+                {
+                    q: "Bentuk sederhana dari $(x^2y)^{-1}$ adalah...",
+                    opts: ["$\\frac{1}{x^2y}$", "$\\frac{x^2}{y}$", "$\\frac{y}{x^2}$", "$x^{-2}y$"],
+                    ans: 0,
+                    hint: "Pangkat $-1$ membalik seluruh bentuk di dalam kurung.",
+                    exp: "$(x^2y)^{-1} = \\frac{1}{(x^2y)^1} = \\frac{1}{x^2y}$."
+                }
+            ],
+            medium: [
+                {
+                    q: "Hasil dari $\\frac{2^4 \\times 3^6}{2^2 \\times 3^3}$ adalah...",
+                    opts: ["$36$", "$72$", "$144$", "$108$"],
+                    ans: 3,
+                    hint: "Sederhanakan masing-masing basis $2$ dan $3$ secara terpisah.",
+                    exp: "$\\frac{2^4}{2^2} = 2^{4-2} = 2^2 = 4$. $\\frac{3^6}{3^3} = 3^{6-3} = 3^3 = 27$. Maka $4 \\times 27 = 108$."
+                },
+                {
+                    q: "Bentuk sederhana dari $\\left(\\frac{x^3 y^{-2}}{x^{-1} y^4}\\right)^2$ adalah...",
+                    opts: ["$\\frac{x^4}{y^4}$", "$\\frac{x^8}{y^{12}}$", "$\\frac{x^6}{y^8}$", "$\\frac{x^{12}}{y^8}$"],
+                    ans: 1,
+                    hint: "Sederhanakan dalam kurung dulu: $x^{3 - (-1)} y^{-2 - 4} = x^4 y^{-6}$.",
+                    exp: "Dalam kurung: $x^{3-(-1)}y^{-2-4} = x^4 y^{-6}$. Dipangkatkan 2: $(x^4 y^{-6})^2 = x^8 y^{-12} = \\frac{x^8}{y^{12}}$."
+                },
+                {
+                    q: "Nilai dari $\\frac{16^{\\frac{3}{4}} + 27^{\\frac{2}{3}}}{125^{\\frac{1}{3}}}$ adalah...",
+                    opts: ["$3{,}8$", "$4{,}2$", "$3{,}4$", "$5$"],
+                    ans: 2,
+                    hint: "Ubah basis: $16 = 2^4$, $27 = 3^3$, $125 = 5^3$.",
+                    exp: "$16^{3/4} = 2^3 = 8$. $27^{2/3} = 3^2 = 9$. $125^{1/3} = 5$. Hasil: $\\frac{8 + 9}{5} = \\frac{17}{5} = 3{,}4$."
+                },
+                {
+                    q: "Jika $2^{x+2} = 64$, maka nilai $x$ adalah...",
+                    opts: ["$3$", "$4$", "$5$", "$6$"],
+                    ans: 1,
+                    hint: "Ubah $64 = 2^6$. Selesaikan persamaan pangkat $x+2 = 6$.",
+                    exp: "$2^{x+2} = 2^6 \\implies x + 2 = 6 \\implies x = 4$."
+                },
+                {
+                    q: "Bentuk $\\sqrt[3]{a^2 \\cdot \\sqrt{a}}$ jika dinyatakan dalam bentuk pangkat rasional adalah...",
+                    opts: ["$a^{\\frac{3}{5}}$", "$a^{\\frac{1}{2}}$", "$a^{\\frac{2}{3}}$", "$a^{\\frac{5}{6}}$"],
+                    ans: 3,
+                    hint: "Ubah $\\sqrt{a} = a^{1/2}$. Maka $a^2 \\cdot a^{1/2} = a^{5/2}$.",
+                    exp: "Bagian dalam: $a^2 \\cdot a^{1/2} = a^{5/2}$. Dipangkatkan $1/3$: $(a^{5/2})^{1/3} = a^{\\frac{5}{6}}$."
+                },
+                {
+                    q: "Penyelesaian dari persamaan $9^{2x-1} = 27^{x+2}$ adalah $x = \\dots$",
+                    opts: ["$4$", "$6$", "$8$", "$10$"],
+                    ans: 2,
+                    hint: "Ubah kedua basis ke $3$: $9 = 3^2$ dan $27 = 3^3$.",
+                    exp: "$(3^2)^{2x-1} = (3^3)^{x+2} \\implies 3^{4x-2} = 3^{3x+6} \\implies 4x-2 = 3x+6 \\implies x = 8$."
+                },
+                {
+                    q: "Jika $a = 8$ dan $b = 27$, maka nilai dari $a^{-\\frac{1}{3}} \\cdot b^{\\frac{2}{3}}$ adalah...",
+                    opts: ["$\\frac{9}{2}$", "$\\frac{2}{9}$", "$\\frac{3}{4}$", "$\\frac{4}{3}$"],
+                    ans: 0,
+                    hint: "Substitusi $a = 2^3$ dan $b = 3^3$.",
+                    exp: "$a^{-1/3} = (2^3)^{-1/3} = 2^{-1} = \\frac{1}{2}$. $b^{2/3} = (3^3)^{2/3} = 3^2 = 9$. Hasil: $\\frac{1}{2} \\times 9 = \\frac{9}{2}$."
+                },
+                {
+                    q: "Bentuk sederhana dari $\\frac{(p^2 q^{-3})^{-2}}{(p^{-1} q^2)^3}$ adalah...",
+                    opts: ["$\\frac{1}{p q^{12}}$", "$\\frac{p}{q^3}$", "$\\frac{1}{p}$", "$\\frac{1}{p^7 q}$"],
+                    ans: 2,
+                    hint: "Sederhanakan pembilang ($p^{-4}q^6$) dan penyebut ($p^{-3}q^6$).",
+                    exp: "Pembilang: $p^{-4} q^6$. Penyebut: $p^{-3} q^6$. Pembagian: $\\frac{p^{-4} q^6}{p^{-3} q^6} = p^{-4 - (-3)} q^{6-6} = p^{-1} = \\frac{1}{p}$."
+                },
+                {
+                    q: "Nilai $x$ yang memenuhi $5^{3x-2} = \\left(\\frac{1}{25}\\right)^{x+1}$ adalah...",
+                    opts: ["$\\frac{1}{5}$", "$-\\frac{1}{5}$", "$1$", "$0$"],
+                    ans: 3,
+                    hint: "Ubah $\\frac{1}{25} = 5^{-2}$.",
+                    exp: "$5^{3x-2} = (5^{-2})^{x+1} \\implies 5^{3x-2} = 5^{-2x-2} \\implies 3x-2 = -2x-2 \\implies 5x = 0 \\implies x = 0$."
+                },
+                {
+                    q: "Hasil sederhana dari $\\frac{3 \\sqrt{2}}{2^{1/2} + 2^{-1/2}}$ adalah...",
+                    opts: ["$3$", "$\\sqrt{2}$", "$2$", "$2\\sqrt{2}$"],
+                    ans: 2,
+                    hint: "Ubah $2^{1/2} = \\sqrt{2}$ dan $2^{-1/2} = \\frac{1}{\\sqrt{2}}$.",
+                    exp: "Penyebut: $\\sqrt{2} + \\frac{1}{\\sqrt{2}} = \\frac{2+1}{\\sqrt{2}} = \\frac{3}{\\sqrt{2}}$. Pembagian: $\\frac{3\\sqrt{2}}{3/\\sqrt{2}} = 3\\sqrt{2} \\times \\frac{\\sqrt{2}}{3} = 2$."
+                },
+                {
+                    q: "Jika $4^x + 4^{-x} = 7$, maka nilai $2^x + 2^{-x}$ adalah...",
+                    opts: ["$\\sqrt{7}$", "$3$", "$5$", "$9$"],
+                    ans: 1,
+                    hint: "Kuadratkan $(2^x + 2^{-x})^2 = (2^x)^2 + 2(2^x)(2^{-x}) + (2^{-x})^2$.",
+                    exp: "$(2^x + 2^{-x})^2 = 4^x + 2(2^0) + 4^{-x} = (4^x + 4^{-x}) + 2 = 7 + 2 = 9$. Karena kuadratnya $9$, maka nilainya $\\sqrt{9} = 3$."
+                },
+                {
+                    q: "Bentuk sederhana dari $\\frac{x^{\\frac{1}{2}} - x^{-\\frac{1}{2}}}{x^{\\frac{1}{2}} + x^{-\\frac{1}{2}}}$ untuk $x = 4$ adalah...",
+                    opts: ["$\\frac{3}{5}$", "$\\frac{1}{3}$", "$\\frac{2}{5}$", "$\\frac{4}{5}$"],
+                    ans: 0,
+                    hint: "Substitusi $x = 4$: $4^{1/2} = 2$ dan $4^{-1/2} = \\frac{1}{2}$.",
+                    exp: "Pembilang: $2 - 1/2 = 3/2$. Penyebut: $2 + 1/2 = 5/2$. Hasil: $\\frac{3/2}{5/2} = \\frac{3}{5}$."
+                },
+                {
+                    q: "Nilai dari $\\frac{2^{n+4} - 2 \\cdot 2^n}{2 \\cdot 2^{n+3}}$ adalah...",
+                    opts: ["$\\frac{1}{2}$", "$\\frac{3}{4}$", "$\\frac{7}{8}$", "$\\frac{14}{16}$"],
+                    ans: 2,
+                    hint: "Faktorkan $2^n$ dari pembilang dan penyebut.",
+                    exp: "Pembilang: $2^n(2^4 - 2) = 14 \\cdot 2^n$. Penyebut: $2 \\cdot 8 \\cdot 2^n = 16 \\cdot 2^n$. Hasil: $\\frac{14}{16} = \\frac{7}{8}$."
+                },
+                {
+                    q: "Jika $\\left(\\frac{1}{4}\\right)^{x-1} = \\sqrt[3]{2^{3x+1}}$, maka nilai $x$ adalah...",
+                    opts: ["$\\frac{5}{9}$", "$\\frac{5}{3}$", "$\\frac{1}{3}$", "$1$"],
+                    ans: 0,
+                    hint: "Ubah basis menjadi $2$: $\\frac{1}{4} = 2^{-2}$ dan akar pangkat 3 menjadi pangkat $\\frac{1}{3}$.",
+                    exp: "$(2^{-2})^{x-1} = 2^{\\frac{3x+1}{3}} \\implies -2(x-1) = \\frac{3x+1}{3} \\implies -6x + 6 = 3x + 1 \\implies 9x = 5 \\implies x = \\frac{5}{9}$."
+                },
+                {
+                    q: "Bentuk baku (notasi ilmiah) dari $0{,}0000345$ dalam basis 10 adalah...",
+                    opts: ["$34{,}5 \\times 10^{-6}$", "$3{,}45 \\times 10^{-5}$", "$3{,}45 \\times 10^{-4}$", "$0{,}345 \\times 10^{-4}$"],
+                    ans: 1,
+                    hint: "Bentuk baku ditulis $a \\times 10^n$ dengan $1 \\le a < 10$.",
+                    exp: "Geser koma ke kanan 5 kali sampai mendapat $3{,}45$. Bergeser ke kanan berarti pangkat negatif $-5$: $3{,}45 \\times 10^{-5}$."
+                }
+            ],
+            hard: [
+                {
+                    q: "Himpunan penyelesaian dari persamaan eksponen $3^{2x} - 4 \\cdot 3^{x+1} + 27 = 0$ adalah...",
+                    opts: ["$\\{3, 9\\}$", "$\\{1, 2\\}$", "$\\{0, 3\\}$", "$\\{1, 3\\}$"],
+                    ans: 1,
+                    hint: "Misalkan $y = 3^x$. Ingat $3^{x+1} = 3 \\cdot 3^x$, bentuk kuadrat $y^2 - 12y + 27 = 0$.",
+                    exp: "Ubah ke $3^{2x} - 12(3^x) + 27 = 0$. Misal $y = 3^x \\implies y^2 - 12y + 27 = 0 \\implies (y-3)(y-9) = 0$. $y = 3 \\implies 3^x = 3^1 \\implies x = 1$. $y = 9 \\implies 3^x = 3^2 \\implies x = 2$. $HP = \\{1, 2\\}$."
+                },
+                {
+                    q: "Jika $x$ dan $y$ memenuhi sistem $2^x \\cdot 3^y = 108$ dan $2^y \\cdot 3^x = 72$, maka nilai $x + y$ adalah...",
+                    opts: ["$4$", "$6$", "$5$", "$7$"],
+                    ans: 2,
+                    hint: "Kalikan kedua persamaan tersebut secara langsung!",
+                    exp: "Kalikan kedua persamaan: $(2^x \\cdot 3^y) \\cdot (2^y \\cdot 3^x) = 108 \\times 72 \\implies 2^{x+y} \\cdot 3^{x+y} = 7776 \\implies 6^{x+y} = 6^5 \\implies x+y = 5$."
+                },
+                {
+                    q: "Banyaknya nilai $x$ real yang memenuhi persamaan $(x-2)^{x^2-4} = 1$ adalah...",
+                    opts: ["$3$", "$4$", "$5$", "$2$"],
+                    ans: 3,
+                    hint: "Uji 3 kondisi: (1) Basis = 1, (2) Pangkat = 0 (basis $\\neq 0$), (3) Basis = -1 (pangkat genap).",
+                    exp: "Kondisi 1: $x-2 = 1 \\implies x = 3$ (Valid).\nKondisi 2: $x^2-4 = 0 \\implies x = 2$ atau $x = -2$. Jika $x=2$, basis $=0$ ($0^0$ tak tentu). Jika $x=-2$, basis $=-4 \\neq 0$ (Valid).\nKondisi 3: $x-2 = -1 \\implies x = 1$. Pangkat $= 1^2-4 = -3$ (Ganjil, $(-1)^{-3} = -1 \\neq 1$, Tidak valid).\nJadi nilai $x$ yang memenuhi ada 2 yaitu $x = 3$ dan $x = -2$."
+                },
+                {
+                    q: "Jika $f(x) = 2^x$, maka nilai dari $\\frac{f(x+3) - f(x-1)}{f(x+1) + f(x)}$ adalah...",
+                    opts: ["$\\frac{5}{2}$", "$\\frac{7}{2}$", "$3$", "$\\frac{9}{4}$"],
+                    ans: 0,
+                    hint: "Ubah $f(x+3) = 8 \\cdot 2^x$ dan $f(x-1) = \\frac{1}{2} \\cdot 2^x$.",
+                    exp: "Pembilang: $8(2^x) - \\frac{1}{2}(2^x) = \\frac{15}{2}(2^x)$. Penyebut: $2(2^x) + 1(2^x) = 3(2^x)$. Hasil: $\\frac{15/2}{3} = \\frac{5}{2}$."
+                },
+                {
+                    q: "Nilai $x$ yang memenuhi $2^{2x+1} - 5 \\cdot 2^x + 2 = 0$ adalah...",
+                    opts: ["$x = 1$ atau $x = 0$", "$x = -1$ atau $x = 2$", "$x = 1$ atau $x = -1$", "$x = 2$ atau $x = -2$"],
+                    ans: 2,
+                    hint: "Bentuk $2 \\cdot (2^x)^2 - 5(2^x) + 2 = 0$. Misal $p = 2^x$.",
+                    exp: "Persamaan: $2p^2 - 5p + 2 = 0 \\implies (2p - 1)(p - 2) = 0$.\n$p = 1/2 \\implies 2^x = 2^{-1} \\implies x = -1$.\n$p = 2 \\implies 2^x = 2^1 \\implies x = 1$."
+                },
+                {
+                    q: "Diketahui $a^x = b$, $b^y = c$, dan $c^z = a$. Nilai dari $x \\cdot y \\cdot z$ adalah...",
+                    opts: ["$0$", "$abc$", "$a+b+c$", "$1$"],
+                    ans: 3,
+                    hint: "Substitusikan secara berantai: $a = c^z = (b^y)^z = b^{yz}$.",
+                    exp: "Substitusi bertahap: $a = c^z = (b^y)^z = b^{yz} = (a^x)^{yz} = a^{xyz}$. Karena $a^1 = a^{xyz}$, maka $x \\cdot y \\cdot z = 1$."
+                },
+                {
+                    q: "Nilai dari $\\sqrt{2 \\sqrt{2 \\sqrt{2 \\dots}}}$ (tak hingga) adalah...",
+                    opts: ["$\\sqrt{2}$", "$2$", "$4$", "$2\\sqrt{2}$"],
+                    ans: 1,
+                    hint: "Misalkan bentuk tersebut $x$, maka $x = \\sqrt{2x}$.",
+                    exp: "Misal $x = \\sqrt{2 \\sqrt{2 \\dots}} \\implies x = \\sqrt{2x}$. Kuadratkan: $x^2 = 2x \\implies x^2 - 2x = 0 \\implies x(x-2) = 0$. Karena $x > 0$, maka $x = 2$."
+                },
+                {
+                    q: "Jika $9^x + 9^{-x} = 23$, maka nilai dari $3^x + 3^{-x}$ adalah...",
+                    opts: ["$25$", "$5$", "$\\sqrt{23}$", "$7$"],
+                    ans: 1,
+                    hint: "Gunakan $(3^x + 3^{-x})^2 = (3^x)^2 + 2(3^x)(3^{-x}) + (3^{-x})^2$.",
+                    exp: "$(3^x + 3^{-x})^2 = 9^x + 2 + 9^{-x} = 23 + 2 = 25$. Maka $3^x + 3^{-x} = \\sqrt{25} = 5$."
+                },
+                {
+                    q: "Bentuk sederhana dari $\\frac{2^{n+1} + 2^n + 2^{n-1}}{2^{n+2} - 2^{n+1}}$ adalah...",
+                    opts: ["$\\frac{7}{4}$", "$\\frac{3}{2}$", "$\\frac{5}{4}$", "$2$"],
+                    ans: 0,
+                    hint: "Faktorkan $2^n$ dari pembilang dan penyebut.",
+                    exp: "Pembilang: $2^n(2 + 1 + 0{,}5) = 3{,}5 \\cdot 2^n = \\frac{7}{2} \\cdot 2^n$.\nPenyebut: $2^n(4 - 2) = 2 \\cdot 2^n$.\nHasil: $\\frac{7/2}{2} = \\frac{7}{4}$."
+                },
+                {
+                    q: "Jika $2^{x-1} = 3^{x+1}$, maka nilai $x$ dapat dinyatakan sebagai...",
+                    opts: ["$\\frac{\\log 18}{\\log(2/3)}$", "$\\frac{\\log 6}{\\log(3/2)}$", "$\\frac{\\log 6}{\\log(2/3)}$", "$\\frac{\\log 18}{\\log(1/6)}$"],
+                    ans: 2,
+                    hint: "Kelompokkan variabel $x$: $\\frac{2^x}{2} = 3 \\cdot 3^x \\implies \\left(\\frac{2}{3}\\right)^x = 6$.",
+                    exp: "$\\frac{2^x}{2} = 3 \\cdot 3^x \\implies \\frac{2^x}{3^x} = 6 \\implies \\left(\\frac{2}{3}\\right)^x = 6$. Gunakan logaritma dasar: $x = \\log_{2/3}(6) = \\frac{\\log 6}{\\log(2/3)}$."
+                }
+            ]
+        };
+
+        let currentMode = 'easy';
+        let activeQuestions = [];
+        let currentIndex = 0;
+        let userAnswers = [];
+        let score = 0;
+
+        function showSection(sectionId) {
+            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+            document.getElementById('sec-' + sectionId).classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Re-render KaTeX math formulas in visible view
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ]
+            });
+        }
+
+        function startQuiz(mode) {
+            currentMode = mode;
+            currentIndex = 0;
+            score = 0;
+
+            if (mode === 'all') {
+                activeQuestions = [
+                    ...ALL_QUESTIONS.easy,
+                    ...ALL_QUESTIONS.medium,
+                    ...ALL_QUESTIONS.hard
+                ];
+            } else {
+                activeQuestions = [...ALL_QUESTIONS[mode]];
+            }
+
+            userAnswers = new Array(activeQuestions.length).fill(null);
+            showSection('quiz-play');
+            loadQuestion();
+        }
+
+        function restartCurrentQuiz() {
+            startQuiz(currentMode);
+        }
+
+        function loadQuestion() {
+            const qData = activeQuestions[currentIndex];
+
+            // Update Header & Badge
+            const levelBadge = document.getElementById('quiz-level-badge');
+            let levelName = "Mudah";
+            let badgeClass = "bg-emerald-100 text-emerald-700";
+
+            if (currentMode === 'medium' || (currentMode === 'all' && currentIndex >= 15 && currentIndex < 30)) {
+                levelName = "Sedang";
+                badgeClass = "bg-amber-100 text-amber-700";
+            } else if (currentMode === 'hard' || (currentMode === 'all' && currentIndex >= 30)) {
+                levelName = "Sukar";
+                badgeClass = "bg-rose-100 text-rose-700";
+            }
+
+            levelBadge.textContent = "Level " + levelName;
+            levelBadge.className = "px-3 py-1 rounded-full text-xs font-extrabold " + badgeClass;
+
+            document.getElementById('quiz-progress-text').textContent = `Soal ${currentIndex + 1} dari ${activeQuestions.length}`;
+            const pct = ((currentIndex + 1) / activeQuestions.length) * 100;
+            document.getElementById('quiz-progress-bar').style.width = `${pct}%`;
+
+            // Render Question Text
+            const qBox = document.getElementById('question-container');
+            qBox.innerHTML = qData.q;
+
+            // Render Options
+            const optsBox = document.getElementById('options-container');
+            optsBox.innerHTML = '';
+
+            const optionLetters = ['A', 'B', 'C', 'D'];
+            qData.opts.forEach((optText, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "opt-transition w-full text-left p-4 rounded-2xl border-2 border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/50 font-medium flex items-center justify-between text-slate-700 group";
+                btn.onclick = () => handleSelectOption(idx);
+                btn.id = `opt-btn-${idx}`;
+
+                btn.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <span class="w-8 h-8 rounded-xl bg-slate-100 text-slate-600 font-bold flex items-center justify-center text-xs group-hover:bg-indigo-600 group-hover:text-white transition">
+                            ${optionLetters[idx]}
+                        </span>
+                        <span class="text-sm sm:text-base">${optText}</span>
+                    </div>
+                    <i class="fa-regular fa-circle text-slate-300 text-lg opt-icon"></i>
+                `;
+                optsBox.appendChild(btn);
+            });
+
+            // Reset Controls
+            document.getElementById('hint-box').classList.add('hidden');
+            document.getElementById('hint-btn-text').textContent = "Lihat Petunjuk Sifat";
+            document.getElementById('hint-text').innerHTML = qData.hint;
+
+            const expBox = document.getElementById('explanation-box');
+            expBox.classList.add('hidden');
+
+            const nextBtn = document.getElementById('next-btn');
+            nextBtn.disabled = true;
+            nextBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+            renderMathInElement(document.getElementById('sec-quiz-play'), {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ]
+            });
+        }
+
+        function toggleHint() {
+            const hBox = document.getElementById('hint-box');
+            const hText = document.getElementById('hint-btn-text');
+            if (hBox.classList.contains('hidden')) {
+                hBox.classList.remove('hidden');
+                hText.textContent = "Sembunyikan Petunjuk";
+            } else {
+                hBox.classList.add('hidden');
+                hText.textContent = "Lihat Petunjuk Sifat";
+            }
+        }
+
+        function handleSelectOption(selectedIdx) {
+            if (userAnswers[currentIndex] !== null) return;
+
+            userAnswers[currentIndex] = selectedIdx;
+            const qData = activeQuestions[currentIndex];
+            const isCorrect = (selectedIdx === qData.ans);
+
+            if (isCorrect) score++;
+
+            // Highlight Options
+            qData.opts.forEach((_, idx) => {
+                const btn = document.getElementById(`opt-btn-${idx}`);
+                btn.onclick = null;
+                btn.classList.remove('hover:border-indigo-500', 'hover:bg-indigo-50/50');
+
+                if (idx === qData.ans) {
+                    btn.className = "w-full text-left p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-900 font-medium flex items-center justify-between shadow-sm";
+                    btn.querySelector('.opt-icon').className = "fa-solid fa-circle-check text-emerald-600 text-xl";
+                } else if (idx === selectedIdx && !isCorrect) {
+                    btn.className = "w-full text-left p-4 rounded-2xl border-2 border-rose-500 bg-rose-50 text-rose-900 font-medium flex items-center justify-between shadow-sm";
+                    btn.querySelector('.opt-icon').className = "fa-solid fa-circle-xmark text-rose-600 text-xl";
+                } else {
+                    btn.className = "w-full text-left p-4 rounded-2xl border-2 border-slate-100 bg-slate-50 text-slate-400 font-medium flex items-center justify-between opacity-50";
+                }
+            });
+
+            // Show Detailed Explanation
+            const expBox = document.getElementById('explanation-box');
+            const expHeader = document.getElementById('explanation-header');
+            const expText = document.getElementById('explanation-text');
+
+            expBox.classList.remove('hidden');
+            if (isCorrect) {
+                expBox.className = "p-5 rounded-2xl space-y-2 text-sm border bg-emerald-50 border-emerald-200 text-emerald-950";
+                expHeader.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> Jawabanmu Tepat!`;
+            } else {
+                expBox.className = "p-5 rounded-2xl space-y-2 text-sm border bg-rose-50 border-rose-200 text-rose-950";
+                expHeader.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-600"></i> Jawaban Kurang Tepat`;
+            }
+
+            expText.innerHTML = `<b>Langkah Pembahasan:</b><br>${qData.exp}`;
+
+            // Enable Next Button
+            const nextBtn = document.getElementById('next-btn');
+            nextBtn.disabled = false;
+            nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+            renderMathInElement(expBox, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ]
+            });
+        }
+
+        function nextQuestion() {
+            if (currentIndex < activeQuestions.length - 1) {
+                currentIndex++;
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function openExitModal() {
+            document.getElementById('exit-modal').classList.remove('hidden');
+        }
+
+        function closeExitModal() {
+            document.getElementById('exit-modal').classList.add('hidden');
+        }
+
+        function confirmExitToMenu() {
+            closeExitModal();
+            showSection('quiz-select');
+        }
+
+        function showResults() {
+            showSection('results');
+
+            const total = activeQuestions.length;
+            const wrong = total - score;
+            const finalScore = Math.round((score / total) * 100);
+
+            document.getElementById('result-score-num').textContent = finalScore;
+            document.getElementById('result-correct-count').textContent = score;
+            document.getElementById('result-wrong-count').textContent = wrong;
+            document.getElementById('result-total-count').textContent = total;
+
+            const iconContainer = document.getElementById('result-icon-container');
+            const resTitle = document.getElementById('result-title');
+            const resSub = document.getElementById('result-subtitle');
+
+            if (finalScore >= 80) {
+                iconContainer.className = "w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-4xl shadow-inner bg-emerald-100 text-emerald-600";
+                iconContainer.innerHTML = '<i class="fa-solid fa-crown"></i>';
+                resTitle.textContent = "Hebat Sekali!";
+                resSub.textContent = "Kamu sudah sangat menguasai konsep dan sifat-sifat eksponen!";
+            } else if (finalScore >= 60) {
+                iconContainer.className = "w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-4xl shadow-inner bg-amber-100 text-amber-600";
+                iconContainer.innerHTML = '<i class="fa-solid fa-thumbs-up"></i>';
+                resTitle.textContent = "Sudah Cukup Bagus!";
+                resSub.textContent = "Pemahamanmu sudah baik, terus berlatih untuk meminimalisir kekeliruan.";
+            } else {
+                iconContainer.className = "w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-4xl shadow-inner bg-rose-100 text-rose-600";
+                iconContainer.innerHTML = '<i class="fa-solid fa-book-open-reader"></i>';
+                resTitle.textContent = "Jangan Patah Semangat!";
+                resSub.textContent = "Yuk pelajari kembali Rangkuman Sifat Eksponen lalu coba lagi!";
+            }
+
+            // Populate Review List
+            const reviewContainer = document.getElementById('review-list-container');
+            reviewContainer.innerHTML = '';
+
+            activeQuestions.forEach((q, idx) => {
+                const uAns = userAnswers[idx];
+                const isCorrect = (uAns === q.ans);
+
+                const card = document.createElement('div');
+                card.className = `p-5 rounded-2xl border ${isCorrect ? 'bg-slate-50 border-slate-200' : 'bg-rose-50/60 border-rose-200'} space-y-3 text-sm`;
+
+                const letters = ['A', 'B', 'C', 'D'];
+                const userChoiceText = uAns !== null ? `${letters[uAns]}. ${q.opts[uAns]}` : "Tidak dijawab";
+                const correctChoiceText = `${letters[q.ans]}. ${q.opts[q.ans]}`;
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start gap-2 font-bold">
+                        <span class="text-slate-800">Soal ${idx + 1}: ${q.q}</span>
+                        <span class="px-2.5 py-1 rounded-full text-xs shrink-0 ${isCorrect ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}">
+                            ${isCorrect ? '<i class="fa-solid fa-check"></i> Benar' : '<i class="fa-solid fa-xmark"></i> Salah'}
+                        </span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                        <div class="${isCorrect ? 'text-slate-600' : 'text-rose-700 font-semibold'}">Jawabanmu: ${userChoiceText}</div>
+                        <div class="text-emerald-700 font-semibold">Jawaban Benar: ${correctChoiceText}</div>
+                    </div>
+                    <div class="bg-white p-3.5 rounded-xl border border-slate-200 text-xs text-slate-700 space-y-1">
+                        <b class="text-indigo-600">Pembahasan:</b><br>${q.exp}
+                    </div>
+                `;
+
+                reviewContainer.appendChild(card);
+            });
+
+            renderMathInElement(reviewContainer, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ]
+            });
+        }
+
+        // Initialize view on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            showSection('home');
+        });
+    </script>
+</body>
+</html>
