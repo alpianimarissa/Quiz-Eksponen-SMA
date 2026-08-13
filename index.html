@@ -11,7 +11,7 @@
     <!-- Font Awesome Icons CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- KaTeX CDN for High Quality Math Formulas -->
+    <!-- KaTeX CDN for Math Formulas -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
@@ -29,51 +29,84 @@
             font-size: 1.1em;
         }
 
-        .custom-glass {
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(12px);
-        }
-
         .gradient-card {
             background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
         }
 
-        /* Smooth transition effects for interactive choices */
         .opt-transition {
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
+        /* Custom scrollbar for question grid */
+        .custom-scroll::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 8px;
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between antialiased">
+<body class="min-h-screen flex flex-col justify-between antialiased selection:bg-indigo-500 selection:text-white">
 
     <!-- HEADER NAVBAR -->
     <header class="bg-indigo-600 text-white shadow-md sticky top-0 z-40 border-b border-indigo-500/30">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center gap-2">
             <div class="flex items-center space-x-3 cursor-pointer group" onclick="showSection('home')">
                 <div class="bg-white text-indigo-600 w-10 h-10 rounded-xl flex items-center justify-center font-black text-xl shadow group-hover:scale-105 transition-transform">
                     $a^x$
                 </div>
                 <div>
-                    <h1 class="font-extrabold text-lg sm:text-xl leading-tight">Master Eksponen SMA</h1>
-                    <p class="text-indigo-200 text-xs hidden sm:block">Modul Rangkuman & 40 Soal Interaktif</p>
+                    <h1 class="font-extrabold text-base sm:text-xl leading-tight">Master Eksponen SMA</h1>
+                    <p class="text-indigo-200 text-xs hidden sm:block">40 Soal Interaktif, Auto-Save & Rangkuman</p>
                 </div>
             </div>
             
-            <nav class="flex items-center space-x-2">
-                <button onclick="showSection('cheatsheet')" class="px-3 py-2 rounded-xl bg-indigo-700/80 hover:bg-indigo-800 text-xs sm:text-sm font-semibold transition flex items-center gap-2">
+            <nav class="flex items-center space-x-1.5 sm:space-x-2">
+                <button onclick="showSection('cheatsheet')" class="px-2.5 py-2 rounded-xl bg-indigo-700/80 hover:bg-indigo-800 text-xs sm:text-sm font-semibold transition flex items-center gap-1.5">
                     <i class="fa-solid fa-book-open"></i>
-                    <span>Rangkuman Sifat</span>
+                    <span class="hidden md:inline">Rangkuman Sifat</span>
                 </button>
-                <button onclick="showSection('quiz-select')" class="px-3 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-xs sm:text-sm font-bold shadow transition flex items-center gap-2">
+                <button onclick="openQuickCheatModal()" class="px-2.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-900 text-xs sm:text-sm font-bold shadow transition flex items-center gap-1.5" title="Buka Pop-up Sifat Eksponen">
+                    <i class="fa-solid fa-lightbulb"></i>
+                    <span class="hidden sm:inline">Cek Sifat</span>
+                </button>
+                <button onclick="showSection('quiz-select')" class="px-3 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-xs sm:text-sm font-bold shadow transition flex items-center gap-1.5">
                     <i class="fa-solid fa-play"></i>
-                    <span>Mulai Quiz</span>
+                    <span>Quiz</span>
                 </button>
             </nav>
         </div>
     </header>
 
     <!-- MAIN CONTENT CONTAINER -->
-    <main class="max-w-5xl mx-auto px-4 py-6 flex-grow w-full">
+    <main class="max-w-5xl mx-auto px-4 py-6 flex-grow w-full space-y-4">
+
+        <!-- RESUME AUTO-SAVE BANNER -->
+        <div id="resume-banner" class="hidden bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 p-4 rounded-2xl shadow-lg flex flex-col sm:flex-row items-center justify-between gap-3 border border-amber-400">
+            <div class="flex items-center space-x-3 text-center sm:text-left">
+                <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-xl shrink-0">
+                    <i class="fa-solid fa-floppy-disk text-slate-900"></i>
+                </div>
+                <div>
+                    <h4 class="font-extrabold text-sm sm:text-base">Ditemukan Progres Quiz Tersimpan!</h4>
+                    <p id="resume-banner-info" class="text-xs text-slate-900/90">Kamu memiliki sesi quiz yang belum selesai.</p>
+                </div>
+            </div>
+            <div class="flex gap-2 w-full sm:w-auto justify-end">
+                <button onclick="promptResetProgress()" class="bg-slate-900/20 hover:bg-slate-900/30 text-slate-950 px-3 py-2 rounded-xl text-xs font-bold transition">
+                    Hapus
+                </button>
+                <button onclick="resumeSavedQuiz()" class="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl text-xs font-bold shadow transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-rotate-left"></i> Lanjutkan Sesi
+                </button>
+            </div>
+        </div>
 
         <!-- SECTION 1: HOME LANDING PAGE -->
         <section id="sec-home" class="space-y-6">
@@ -84,23 +117,54 @@
                         Matematika Kelas 10 - 12 SMA
                     </span>
                     <h2 class="text-3xl sm:text-5xl font-black leading-tight">
-                        Sering Lupa Sifat Eksponen?
+                        Lupa Sifat Eksponen Saat Mengerjakan Quiz?
                     </h2>
                     <p class="text-indigo-100 text-sm sm:text-base leading-relaxed">
-                        Latih dan tingkatkan ingatanmu secara bertahap! Mulai dari pelajari rangkuman sifat dasar dengan contoh konkret, lalu uji kemampuanmu lewat 40 soal bertingkat dari Mudah, Sedang, hingga Sukar.
+                        Tenang! Quiz ini dilengkapi fitur <b>Navigasi Bebas Soal</b>, <b>Penyimpanan Otomatis (Auto-Save)</b> agar jawabanmu tidak hilang, serta <b>Pop-Up Sifat Eksponen Instant</b> yang bisa dibuka sewaktu-waktu.
                     </p>
                     <div class="flex flex-wrap gap-3 pt-2">
-                        <button onclick="showSection('cheatsheet')" class="bg-white text-indigo-700 hover:bg-indigo-50 px-6 py-3 rounded-xl font-extrabold text-sm shadow-lg transition flex items-center gap-2">
-                            <i class="fa-solid fa-book"></i> Pelajari Rangkuman Sifat
+                        <button onclick="showSection('cheatsheet')" class="bg-white text-indigo-700 hover:bg-indigo-50 px-5 py-3 rounded-xl font-extrabold text-sm shadow-lg transition flex items-center gap-2">
+                            <i class="fa-solid fa-book"></i> Rangkuman Sifat
                         </button>
-                        <button onclick="showSection('quiz-select')" class="bg-emerald-400 hover:bg-emerald-500 text-slate-900 px-6 py-3 rounded-xl font-extrabold text-sm shadow-lg transition flex items-center gap-2">
+                        <button onclick="showSection('quiz-select')" class="bg-emerald-400 hover:bg-emerald-500 text-slate-900 px-5 py-3 rounded-xl font-extrabold text-sm shadow-lg transition flex items-center gap-2">
                             <i class="fa-solid fa-gamepad"></i> Pilih Level Quiz (40 Soal)
                         </button>
                     </div>
                 </div>
-                <!-- Background Graphic Element -->
                 <div class="absolute -right-8 -bottom-12 opacity-15 text-[200px] font-black select-none pointer-events-none">
                     $2^n$
+                </div>
+            </div>
+
+            <!-- Feature Badges -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-3">
+                    <i class="fa-solid fa-arrows-left-right text-indigo-600 text-xl"></i>
+                    <div>
+                        <h4 class="font-bold text-xs text-slate-800">Navigasi Bebas</h4>
+                        <p class="text-[10px] text-slate-500">Back/Next & lompat nomor</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-3">
+                    <i class="fa-solid fa-floppy-disk text-emerald-600 text-xl"></i>
+                    <div>
+                        <h4 class="font-bold text-xs text-slate-800">Auto-Save</h4>
+                        <p class="text-[10px] text-slate-500">Aman jika putus koneksi</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-3">
+                    <i class="fa-solid fa-lightbulb text-amber-500 text-xl"></i>
+                    <div>
+                        <h4 class="font-bold text-xs text-slate-800">Pop-up Sifat</h4>
+                        <p class="text-[10px] text-slate-500">Cek rumus saat quiz</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-3">
+                    <i class="fa-solid fa-rotate-left text-rose-500 text-xl"></i>
+                    <div>
+                        <h4 class="font-bold text-xs text-slate-800">Fitur Reset</h4>
+                        <p class="text-[10px] text-slate-500">Ulangi latihan kapan saja</p>
+                    </div>
                 </div>
             </div>
 
@@ -155,118 +219,8 @@
             </div>
 
             <!-- Grid Sifat-Sifat -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Sifat 1 -->
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition space-y-2">
-                    <div class="flex justify-between items-center">
-                        <span class="text-xs font-bold px-3 py-1 bg-indigo-100 text-indigo-700 rounded-lg">1. Perkalian Basis Sama</span>
-                    </div>
-                    <div class="text-center py-3 bg-slate-50 rounded-xl my-2 font-bold text-lg text-indigo-600">
-                        $$a^m \cdot a^n = a^{m+n}$$
-                    </div>
-                    <p class="text-xs text-slate-600">Jika basisnya <b>sama</b> dan dikalikan, maka pangkatnya <b>dijumlahkan</b>.</p>
-                    <div class="bg-emerald-50 p-3 rounded-xl text-xs border border-emerald-100 text-emerald-800 font-medium">
-                        <b>Contoh:</b> $2^3 \cdot 2^4 = 2^{3+4} = 2^7 = 128$
-                    </div>
-                </div>
-
-                <!-- Sifat 2 -->
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition space-y-2">
-                    <div class="flex justify-between items-center">
-                        <span class="text-xs font-bold px-3 py-1 bg-indigo-100 text-indigo-700 rounded-lg">2. Pembagian Basis Sama</span>
-                    </div>
-                    <div class="text-center py-3 bg-slate-50 rounded-xl my-2 font-bold text-lg text-indigo-600">
-                        $$\frac{a^m}{a^n} = a^{m-n} \quad (a \neq 0)$$
-                    </div>
-                    <p class="text-xs text-slate-600">Jika basisnya <b>sama</b> dan dibagi, maka pangkatnya <b>dikurangi</b>.</p>
-                    <div class="bg-emerald-50 p-3 rounded-xl text-xs border border-emerald-100 text-emerald-800 font-medium">
-                        <b>Contoh:</b> $\frac{3^6}{3^2} = 3^{6-2} = 3^4 = 81$
-                    </div>
-                </div>
-
-                <!-- Sifat 3 -->
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition space-y-2">
-                    <div class="flex justify-between items-center">
-                        <span class="text-xs font-bold px-3 py-1 bg-indigo-100 text-indigo-700 rounded-lg">3. Perpangkatan Pangkat</span>
-                    </div>
-                    <div class="text-center py-3 bg-slate-50 rounded-xl my-2 font-bold text-lg text-indigo-600">
-                        $$(a^m)^n = a^{m \cdot n}$$
-                    </div>
-                    <p class="text-xs text-slate-600">Jika bilangan berpangkat dipangkatkan lagi, pangkatnya <b>dikalikan</b>.</p>
-                    <div class="bg-emerald-50 p-3 rounded-xl text-xs border border-emerald-100 text-emerald-800 font-medium">
-                        <b>Contoh:</b> $(5^2)^3 = 5^{2 \times 3} = 5^6 = 15625$
-                    </div>
-                </div>
-
-                <!-- Sifat 4 -->
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition space-y-2">
-                    <div class="flex justify-between items-center">
-                        <span class="text-xs font-bold px-3 py-1 bg-indigo-100 text-indigo-700 rounded-lg">4. Perkalian Dipangkatkan</span>
-                    </div>
-                    <div class="text-center py-3 bg-slate-50 rounded-xl my-2 font-bold text-lg text-indigo-600">
-                        $$(a \cdot b)^n = a^n \cdot b^n$$
-                    </div>
-                    <p class="text-xs text-slate-600">Pangkat berlaku untuk <b>setiap faktor</b> di dalam kurung.</p>
-                    <div class="bg-emerald-50 p-3 rounded-xl text-xs border border-emerald-100 text-emerald-800 font-medium">
-                        <b>Contoh:</b> $(2x)^3 = 2^3 \cdot x^3 = 8x^3$
-                    </div>
-                </div>
-
-                <!-- Sifat 5 -->
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition space-y-2">
-                    <div class="flex justify-between items-center">
-                        <span class="text-xs font-bold px-3 py-1 bg-indigo-100 text-indigo-700 rounded-lg">5. Pembagian Dipangkatkan</span>
-                    </div>
-                    <div class="text-center py-3 bg-slate-50 rounded-xl my-2 font-bold text-lg text-indigo-600">
-                        $$\left(\frac{a}{b}\right)^n = \frac{a^n}{b^n} \quad (b \neq 0)$$
-                    </div>
-                    <p class="text-xs text-slate-600">Pangkat berlaku untuk pembilang dan penyebut.</p>
-                    <div class="bg-emerald-50 p-3 rounded-xl text-xs border border-emerald-100 text-emerald-800 font-medium">
-                        <b>Contoh:</b> $\left(\frac{2}{3}\right)^3 = \frac{2^3}{3^3} = \frac{8}{27}$
-                    </div>
-                </div>
-
-                <!-- Sifat 6 -->
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition space-y-2">
-                    <div class="flex justify-between items-center">
-                        <span class="text-xs font-bold px-3 py-1 bg-indigo-100 text-indigo-700 rounded-lg">6. Pangkat Nol</span>
-                    </div>
-                    <div class="text-center py-3 bg-slate-50 rounded-xl my-2 font-bold text-lg text-indigo-600">
-                        $$a^0 = 1 \quad (a \neq 0)$$
-                    </div>
-                    <p class="text-xs text-slate-600">Semua bilangan bukan nol jika dipangkatkan $0$ hasilnya adalah $1$.</p>
-                    <div class="bg-emerald-50 p-3 rounded-xl text-xs border border-emerald-100 text-emerald-800 font-medium">
-                        <b>Contoh:</b> $999^0 = 1$ dan $(-5)^0 = 1$
-                    </div>
-                </div>
-
-                <!-- Sifat 7 -->
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition space-y-2">
-                    <div class="flex justify-between items-center">
-                        <span class="text-xs font-bold px-3 py-1 bg-indigo-100 text-indigo-700 rounded-lg">7. Pangkat Negatif</span>
-                    </div>
-                    <div class="text-center py-3 bg-slate-50 rounded-xl my-2 font-bold text-lg text-indigo-600">
-                        $$a^{-n} = \frac{1}{a^n} \quad \text{dan} \quad \left(\frac{a}{b}\right)^{-n} = \left(\frac{b}{a}\right)^n$$
-                    </div>
-                    <p class="text-xs text-slate-600">Pangkat negatif menunjukkan posisi kebalikan (pembilang $\leftrightarrow$ penyebut).</p>
-                    <div class="bg-emerald-50 p-3 rounded-xl text-xs border border-emerald-100 text-emerald-800 font-medium">
-                        <b>Contoh:</b> $4^{-2} = \frac{1}{4^2} = \frac{1}{16}$
-                    </div>
-                </div>
-
-                <!-- Sifat 8 -->
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition space-y-2">
-                    <div class="flex justify-between items-center">
-                        <span class="text-xs font-bold px-3 py-1 bg-indigo-100 text-indigo-700 rounded-lg">8. Pangkat Pecahan / Akar</span>
-                    </div>
-                    <div class="text-center py-3 bg-slate-50 rounded-xl my-2 font-bold text-lg text-indigo-600">
-                        $$a^{\frac{m}{n}} = \sqrt[n]{a^m}$$
-                    </div>
-                    <p class="text-xs text-slate-600">Penyebut pada pangkat pecahan menjadi indeks luar akar.</p>
-                    <div class="bg-emerald-50 p-3 rounded-xl text-xs border border-emerald-100 text-emerald-800 font-medium">
-                        <b>Contoh:</b> $8^{\frac{2}{3}} = \sqrt[3]{8^2} = \sqrt[3]{64} = 4$
-                    </div>
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="cheatsheet-grid-container">
+                <!-- Static rendering done by JS or inline html for consistency -->
             </div>
 
             <!-- Common Pitfalls Warning -->
@@ -347,22 +301,45 @@
         </section>
 
         <!-- SECTION 4: ACTIVE QUIZ PLAY VIEW -->
-        <section id="sec-quiz-play" class="hidden space-y-6">
-            <!-- Progress Header -->
+        <section id="sec-quiz-play" class="hidden space-y-4">
+            <!-- Progress & Controls Header -->
             <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
-                <div class="flex justify-between items-center">
+                <div class="flex justify-between items-center flex-wrap gap-2">
                     <div class="flex items-center space-x-2">
                         <span id="quiz-level-badge" class="px-3 py-1 rounded-full text-xs font-extrabold bg-indigo-100 text-indigo-700">Level Mudah</span>
                         <span id="quiz-progress-text" class="text-xs font-semibold text-slate-500">Soal 1 dari 15</span>
+                        <span id="autosave-status" class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 flex items-center gap-1">
+                            <i class="fa-solid fa-cloud-check"></i> Tersimpan
+                        </span>
                     </div>
-                    <button onclick="openExitModal()" class="text-slate-400 hover:text-rose-500 text-xs font-bold flex items-center gap-1 transition">
-                        <i class="fa-solid fa-xmark"></i> Keluar
-                    </button>
+
+                    <div class="flex items-center space-x-2">
+                        <button onclick="openQuickCheatModal()" class="text-xs bg-amber-100 hover:bg-amber-200 text-amber-900 px-3 py-1.5 rounded-xl font-bold transition flex items-center gap-1">
+                            <i class="fa-solid fa-lightbulb text-amber-600"></i> Sifat Eksponen
+                        </button>
+                        <button onclick="promptResetProgress()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1.5 rounded-xl font-bold transition flex items-center gap-1" title="Reset Soal">
+                            <i class="fa-solid fa-rotate-left"></i> Reset
+                        </button>
+                        <button onclick="openExitModal()" class="text-xs bg-rose-50 hover:bg-rose-100 text-rose-600 px-2.5 py-1.5 rounded-xl font-bold transition flex items-center gap-1">
+                            <i class="fa-solid fa-xmark"></i> Keluar
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Animated Progress Bar -->
                 <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
                     <div id="quiz-progress-bar" class="bg-indigo-600 h-full w-0 transition-all duration-300"></div>
+                </div>
+
+                <!-- Interactive Question Navigation Grid -->
+                <div class="pt-2 border-t border-slate-100">
+                    <div class="flex justify-between items-center mb-1.5">
+                        <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Navigasi Nomor Soal:</span>
+                        <span class="text-[11px] text-slate-400">Klik nomor untuk berpindah</span>
+                    </div>
+                    <div id="question-nav-grid" class="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto custom-scroll p-1 bg-slate-50 rounded-xl border border-slate-200/80">
+                        <!-- Dynamic Question Number Chips -->
+                    </div>
                 </div>
             </div>
 
@@ -370,7 +347,10 @@
             <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-md space-y-6">
                 <!-- Question Box -->
                 <div class="space-y-2">
-                    <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider">Pertanyaan:</span>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider">Pertanyaan:</span>
+                        <span id="question-status-badge" class="text-xs px-2.5 py-0.5 rounded-full font-bold bg-slate-100 text-slate-500">Belum Dijawab</span>
+                    </div>
                     <div id="question-container" class="text-lg sm:text-xl font-bold text-slate-800 leading-relaxed min-h-[60px] flex items-center">
                         <!-- KaTeX Question Rendered Here -->
                     </div>
@@ -400,11 +380,17 @@
                     <div id="explanation-text" class="text-slate-700 leading-relaxed"></div>
                 </div>
 
-                <!-- Next Button -->
-                <div class="flex justify-end pt-2">
-                    <button id="next-btn" onclick="nextQuestion()" disabled class="opacity-50 cursor-not-allowed bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-8 py-3 rounded-xl shadow transition flex items-center gap-2">
-                        Soal Berikutnya <i class="fa-solid fa-arrow-right"></i>
+                <!-- Navigation Action Buttons (BACK & NEXT) -->
+                <div class="flex justify-between items-center pt-3 border-t border-slate-100 gap-2">
+                    <button id="prev-btn" onclick="prevQuestion()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-5 py-3 rounded-xl transition flex items-center gap-2 text-xs sm:text-sm">
+                        <i class="fa-solid fa-arrow-left"></i> Soal Sebelumnya
                     </button>
+
+                    <div class="flex items-center gap-2">
+                        <button id="next-btn" onclick="nextQuestion()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl shadow transition flex items-center gap-2 text-xs sm:text-sm">
+                            <span id="next-btn-label">Soal Berikutnya</span> <i id="next-btn-icon" class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -456,20 +442,65 @@
 
     </main>
 
-    <!-- EXIT CONFIRMATION MODAL -->
+    <!-- MODAL 1: QUICK CHEAT SHEET MODAL (POPOVER FOR QUIZ PLAY) -->
+    <div id="quick-cheat-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden border border-slate-100">
+            <!-- Header -->
+            <div class="p-5 bg-indigo-600 text-white flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-lightbulb text-amber-300 text-xl"></i>
+                    <h3 class="font-extrabold text-lg">Sifat-Sifat Eksponen Ringkas</h3>
+                </div>
+                <button onclick="closeQuickCheatModal()" class="w-8 h-8 rounded-full bg-indigo-700 hover:bg-indigo-800 text-white flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <!-- Body -->
+            <div class="p-5 overflow-y-auto space-y-4 custom-scroll" id="quick-cheat-body">
+                <!-- Cheat items cloned here -->
+            </div>
+            <!-- Footer -->
+            <div class="p-4 bg-slate-50 border-t border-slate-200 text-right">
+                <button onclick="closeQuickCheatModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-5 py-2 rounded-xl text-xs transition">
+                    Tutup & Lanjutkan Quiz
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: RESET CONFIRMATION MODAL -->
+    <div id="reset-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl">
+            <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-xl mx-auto font-bold">
+                <i class="fa-solid fa-rotate-left"></i>
+            </div>
+            <h3 class="font-extrabold text-lg text-slate-800">Reset Seluruh Progress?</h3>
+            <p class="text-xs text-slate-500">Semua riwayat jawaban yang sudah dikerjakan di sesi ini akan dihapus bersih.</p>
+            <div class="flex gap-2 pt-2">
+                <button onclick="closeResetModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs transition">
+                    Batal
+                </button>
+                <button onclick="confirmResetProgress()" class="w-1/2 bg-rose-500 hover:bg-rose-600 text-white font-bold py-2.5 rounded-xl text-xs transition shadow">
+                    Ya, Reset
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: EXIT CONFIRMATION MODAL -->
     <div id="exit-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl">
             <div class="w-12 h-12 bg-rose-100 text-rose-500 rounded-2xl flex items-center justify-center text-xl mx-auto font-bold">
                 <i class="fa-solid fa-triangle-exclamation"></i>
             </div>
-            <h3 class="font-extrabold text-lg text-slate-800">Keluar Dari Quiz?</h3>
-            <p class="text-xs text-slate-500">Progres pengerjaan saat ini tidak akan tersimpan.</p>
+            <h3 class="font-extrabold text-lg text-slate-800">Keluar Ke Menu Utama?</h3>
+            <p class="text-xs text-slate-500">Progres kamu tersimpan secara otomatis, kamu bisa melanjutkannya kapan saja.</p>
             <div class="flex gap-2 pt-2">
                 <button onclick="closeExitModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs transition">
-                    Lanjutkan
+                    Lanjutkan Quiz
                 </button>
                 <button onclick="confirmExitToMenu()" class="w-1/2 bg-rose-500 hover:bg-rose-600 text-white font-bold py-2.5 rounded-xl text-xs transition shadow">
-                    Ya, Keluar
+                    Ya, Ke Menu
                 </button>
             </div>
         </div>
@@ -477,12 +508,64 @@
 
     <!-- FOOTER -->
     <footer class="bg-white border-t border-slate-200 py-4 mt-8">
-        <div class="max-w-6xl mx-auto px-4 text-center text-xs text-slate-400 font-medium">
-            Master Eksponen SMA &copy; 2026 &bull; Modul & Quiz Interaktif Matematika
+        <div class="max-w-6xl mx-auto px-4 text-center text-xs text-slate-400 font-medium flex flex-col sm:flex-row justify-between items-center gap-2">
+            <span>Master Eksponen SMA &copy; 2026 &bull; Modul & Quiz Interaktif Matematika</span>
+            <span class="text-[11px] text-slate-400"><i class="fa-solid fa-database text-emerald-500"></i> Auto-Save LocalStorage Enabled</span>
         </div>
     </footer>
 
     <script>
+        const CHEATSHEET_ITEMS = [
+            {
+                title: "1. Perkalian Basis Sama",
+                formula: "$$a^m \\cdot a^n = a^{m+n}$$",
+                desc: "Jika basisnya <b>sama</b> dan dikalikan, maka pangkatnya <b>dijumlahkan</b>.",
+                eg: "<b>Contoh:</b> $2^3 \\cdot 2^4 = 2^{3+4} = 2^7 = 128$"
+            },
+            {
+                title: "2. Pembagian Basis Sama",
+                formula: "$$\\frac{a^m}{a^n} = a^{m-n} \\quad (a \\neq 0)$$",
+                desc: "Jika basisnya <b>sama</b> dan dibagi, maka pangkatnya <b>dikurangi</b>.",
+                eg: "<b>Contoh:</b> $\\frac{3^6}{3^2} = 3^{6-2} = 3^4 = 81$"
+            },
+            {
+                title: "3. Perpangkatan Pangkat",
+                formula: "$$(a^m)^n = a^{m \\cdot n}$$",
+                desc: "Jika bilangan berpangkat dipangkatkan lagi, pangkatnya <b>dikalikan</b>.",
+                eg: "<b>Contoh:</b> $(5^2)^3 = 5^{2 \\times 3} = 5^6 = 15625$"
+            },
+            {
+                title: "4. Perkalian Dipangkatkan",
+                formula: "$$(a \\cdot b)^n = a^n \\cdot b^n$$",
+                desc: "Pangkat berlaku untuk <b>setiap faktor</b> di dalam kurung.",
+                eg: "<b>Contoh:</b> $(2x)^3 = 2^3 \\cdot x^3 = 8x^3$"
+            },
+            {
+                title: "5. Pembagian Dipangkatkan",
+                formula: "$$\\left(\\frac{a}{b}\\right)^n = \\frac{a^n}{b^n} \\quad (b \\neq 0)$$",
+                desc: "Pangkat berlaku untuk pembilang dan penyebut.",
+                eg: "<b>Contoh:</b> $\\left(\\frac{2}{3}\\right)^3 = \\frac{2^3}{3^3} = \\frac{8}{27}$"
+            },
+            {
+                title: "6. Pangkat Nol",
+                formula: "$$a^0 = 1 \\quad (a \\neq 0)$$",
+                desc: "Semua bilangan bukan nol jika dipangkatkan $0$ hasilnya adalah $1$.",
+                eg: "<b>Contoh:</b> $999^0 = 1$ dan $(-5)^0 = 1$"
+            },
+            {
+                title: "7. Pangkat Negatif",
+                formula: "$$a^{-n} = \\frac{1}{a^n} \\quad \\text{dan} \\quad \\left(\\frac{a}{b}\\right)^{-n} = \\left(\\frac{b}{a}\\right)^n$$",
+                desc: "Pangkat negatif menunjukkan posisi kebalikan (pembilang $\\leftrightarrow$ penyebut).",
+                eg: "<b>Contoh:</b> $4^{-2} = \\frac{1}{4^2} = \\frac{1}{16}$"
+            },
+            {
+                title: "8. Pangkat Pecahan / Akar",
+                formula: "$$a^{\\frac{m}{n}} = \\sqrt[n]{a^m}$$",
+                desc: "Penyebut pada pangkat pecahan menjadi indeks luar akar.",
+                eg: "<b>Contoh:</b> $8^{\\frac{2}{3}} = \\sqrt[3]{8^2} = \\sqrt[3]{64} = 4$"
+            }
+        ];
+
         const ALL_QUESTIONS = {
             easy: [
                 {
@@ -772,30 +855,130 @@
             ]
         };
 
+        // GLOBAL APPLICATION STATE
+        const STORAGE_KEY = "master_eksponen_save_v2";
         let currentMode = 'easy';
         let activeQuestions = [];
         let currentIndex = 0;
         let userAnswers = [];
-        let score = 0;
 
-        function showSection(sectionId) {
-            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
-            document.getElementById('sec-' + sectionId).classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            // Re-render KaTeX math formulas in visible view
-            renderMathInElement(document.body, {
+        function renderKatexMath(elementOrId = document.body) {
+            const target = typeof elementOrId === 'string' ? document.getElementById(elementOrId) : elementOrId;
+            if (!target) return;
+            renderMathInElement(target, {
                 delimiters: [
                     {left: '$$', right: '$$', display: true},
                     {left: '$', right: '$', display: false}
-                ]
+                ],
+                throwOnError: false
             });
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+            const activeSec = document.getElementById('sec-' + sectionId);
+            if (activeSec) activeSec.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            checkResumeBanner();
+            renderKatexMath();
+        }
+
+        // POPULATE CHEATSHEET HTML
+        function initCheatSheetViews() {
+            const fullContainer = document.getElementById('cheatsheet-grid-container');
+            const quickBody = document.getElementById('quick-cheat-body');
+            
+            let htmlStr = '';
+            CHEATSHEET_ITEMS.forEach(item => {
+                htmlStr += `
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold px-3 py-1 bg-indigo-100 text-indigo-700 rounded-lg">${item.title}</span>
+                        </div>
+                        <div class="text-center py-3 bg-slate-50 rounded-xl my-2 font-bold text-base sm:text-lg text-indigo-600">
+                            ${item.formula}
+                        </div>
+                        <p class="text-xs text-slate-600">${item.desc}</p>
+                        <div class="bg-emerald-50 p-3 rounded-xl text-xs border border-emerald-100 text-emerald-800 font-medium">
+                            ${item.eg}
+                        </div>
+                    </div>
+                `;
+            });
+
+            if (fullContainer) fullContainer.innerHTML = htmlStr;
+            if (quickBody) quickBody.innerHTML = htmlStr;
+        }
+
+        function saveQuizState() {
+            if (!activeQuestions || activeQuestions.length === 0) return;
+            
+            const answeredCount = userAnswers.filter(a => a !== null).length;
+            const state = {
+                mode: currentMode,
+                currentIndex: currentIndex,
+                userAnswers: userAnswers,
+                total: activeQuestions.length,
+                answeredCount: answeredCount,
+                timestamp: new Date().getTime()
+            };
+
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+                const badge = document.getElementById('autosave-status');
+                if (badge) {
+                    badge.classList.remove('opacity-0');
+                    setTimeout(() => badge.classList.add('opacity-0'), 2000);
+                }
+            } catch (e) {
+                console.warn("LocalStorage error:", e);
+            }
+        }
+
+        function getSavedState() {
+            try {
+                const data = localStorage.getItem(STORAGE_KEY);
+                return data ? JSON.parse(data) : null;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function checkResumeBanner() {
+            const saved = getSavedState();
+            const banner = document.getElementById('resume-banner');
+            const info = document.getElementById('resume-banner-info');
+
+            if (saved && saved.userAnswers && saved.answeredCount < saved.total) {
+                let modeLabel = saved.mode === 'all' ? 'Marathon (40 Soal)' : `Level ${saved.mode.toUpperCase()}`;
+                info.textContent = `${modeLabel} - ${saved.answeredCount} dari ${saved.total} soal terisi.`;
+                banner.classList.remove('hidden');
+            } else {
+                banner.classList.add('hidden');
+            }
+        }
+
+        function resumeSavedQuiz() {
+            const saved = getSavedState();
+            if (!saved) return;
+
+            currentMode = saved.mode;
+            if (currentMode === 'all') {
+                activeQuestions = [...ALL_QUESTIONS.easy, ...ALL_QUESTIONS.medium, ...ALL_QUESTIONS.hard];
+            } else {
+                activeQuestions = [...ALL_QUESTIONS[currentMode]];
+            }
+
+            userAnswers = saved.userAnswers || new Array(activeQuestions.length).fill(null);
+            currentIndex = saved.currentIndex || 0;
+
+            showSection('quiz-play');
+            loadQuestion();
         }
 
         function startQuiz(mode) {
             currentMode = mode;
             currentIndex = 0;
-            score = 0;
 
             if (mode === 'all') {
                 activeQuestions = [
@@ -808,12 +991,44 @@
             }
 
             userAnswers = new Array(activeQuestions.length).fill(null);
+            saveQuizState();
             showSection('quiz-play');
             loadQuestion();
         }
 
         function restartCurrentQuiz() {
             startQuiz(currentMode);
+        }
+
+        function renderQuestionGrid() {
+            const gridContainer = document.getElementById('question-nav-grid');
+            if (!gridContainer) return;
+            gridContainer.innerHTML = '';
+
+            activeQuestions.forEach((_, idx) => {
+                const chip = document.createElement('button');
+                const isCurrent = (idx === currentIndex);
+                const isAnswered = (userAnswers[idx] !== null);
+
+                let bgClass = "bg-white text-slate-700 border-slate-300 hover:bg-indigo-50 hover:border-indigo-400";
+                if (isCurrent) {
+                    bgClass = "bg-indigo-600 text-white font-extrabold border-indigo-600 ring-2 ring-indigo-300";
+                } else if (isAnswered) {
+                    bgClass = "bg-emerald-100 text-emerald-800 font-bold border-emerald-300";
+                }
+
+                chip.className = `w-8 h-8 rounded-lg text-xs border transition flex items-center justify-center shrink-0 ${bgClass}`;
+                chip.textContent = idx + 1;
+                chip.onclick = () => jumpToQuestion(idx);
+                gridContainer.appendChild(chip);
+            });
+        }
+
+        function jumpToQuestion(idx) {
+            if (idx >= 0 && idx < activeQuestions.length) {
+                currentIndex = idx;
+                loadQuestion();
+            }
         }
 
         function loadQuestion() {
@@ -839,6 +1054,16 @@
             const pct = ((currentIndex + 1) / activeQuestions.length) * 100;
             document.getElementById('quiz-progress-bar').style.width = `${pct}%`;
 
+            // Question status badge
+            const statusBadge = document.getElementById('question-status-badge');
+            if (userAnswers[currentIndex] !== null) {
+                statusBadge.textContent = "Sudah Dijawab";
+                statusBadge.className = "text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-700";
+            } else {
+                statusBadge.textContent = "Belum Dijawab";
+                statusBadge.className = "text-xs px-2.5 py-0.5 rounded-full font-bold bg-slate-100 text-slate-500";
+            }
+
             // Render Question Text
             const qBox = document.getElementById('question-container');
             qBox.innerHTML = qData.q;
@@ -847,12 +1072,30 @@
             const optsBox = document.getElementById('options-container');
             optsBox.innerHTML = '';
 
+            const selectedIdx = userAnswers[currentIndex];
             const optionLetters = ['A', 'B', 'C', 'D'];
+
             qData.opts.forEach((optText, idx) => {
                 const btn = document.createElement('button');
-                btn.className = "opt-transition w-full text-left p-4 rounded-2xl border-2 border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/50 font-medium flex items-center justify-between text-slate-700 group";
-                btn.onclick = () => handleSelectOption(idx);
                 btn.id = `opt-btn-${idx}`;
+
+                let btnStyle = "w-full text-left p-4 rounded-2xl border-2 border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/50 font-medium flex items-center justify-between text-slate-700 group opt-transition";
+                let iconStyle = "fa-regular fa-circle text-slate-300 text-lg opt-icon";
+
+                if (selectedIdx !== null) {
+                    if (idx === qData.ans) {
+                        btnStyle = "w-full text-left p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-900 font-medium flex items-center justify-between shadow-sm";
+                        iconStyle = "fa-solid fa-circle-check text-emerald-600 text-xl opt-icon";
+                    } else if (idx === selectedIdx && selectedIdx !== qData.ans) {
+                        btnStyle = "w-full text-left p-4 rounded-2xl border-2 border-rose-500 bg-rose-50 text-rose-900 font-medium flex items-center justify-between shadow-sm";
+                        iconStyle = "fa-solid fa-circle-xmark text-rose-600 text-xl opt-icon";
+                    } else {
+                        btnStyle = "w-full text-left p-4 rounded-2xl border-2 border-slate-100 bg-slate-50 text-slate-400 font-medium flex items-center justify-between opacity-50";
+                    }
+                }
+
+                btn.className = btnStyle;
+                btn.onclick = () => handleSelectOption(idx);
 
                 btn.innerHTML = `
                     <div class="flex items-center space-x-3">
@@ -861,29 +1104,74 @@
                         </span>
                         <span class="text-sm sm:text-base">${optText}</span>
                     </div>
-                    <i class="fa-regular fa-circle text-slate-300 text-lg opt-icon"></i>
+                    <i class="${iconStyle}"></i>
                 `;
                 optsBox.appendChild(btn);
             });
 
-            // Reset Controls
+            // Reset or show Hint Box
             document.getElementById('hint-box').classList.add('hidden');
             document.getElementById('hint-btn-text').textContent = "Lihat Petunjuk Sifat";
             document.getElementById('hint-text').innerHTML = qData.hint;
 
+            // Explanation Box logic
             const expBox = document.getElementById('explanation-box');
-            expBox.classList.add('hidden');
+            if (selectedIdx !== null) {
+                const isCorrect = (selectedIdx === qData.ans);
+                expBox.classList.remove('hidden');
+                expBox.className = `p-5 rounded-2xl space-y-2 text-sm border ${isCorrect ? 'bg-emerald-50 border-emerald-200 text-emerald-950' : 'bg-rose-50 border-rose-200 text-rose-950'}`;
+                document.getElementById('explanation-header').innerHTML = isCorrect ?
+                    `<i class="fa-solid fa-circle-check text-emerald-600"></i> Jawabanmu Tepat!` :
+                    `<i class="fa-solid fa-circle-xmark text-rose-600"></i> Jawaban Kurang Tepat`;
+                document.getElementById('explanation-text').innerHTML = `<b>Langkah Pembahasan:</b><br>${qData.exp}`;
+            } else {
+                expBox.classList.add('hidden');
+            }
 
-            const nextBtn = document.getElementById('next-btn');
-            nextBtn.disabled = true;
-            nextBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            // Update Back & Next Button Controls
+            const prevBtn = document.getElementById('prev-btn');
+            if (currentIndex === 0) {
+                prevBtn.classList.add('opacity-40', 'pointer-events-none');
+            } else {
+                prevBtn.classList.remove('opacity-40', 'pointer-events-none');
+            }
 
-            renderMathInElement(document.getElementById('sec-quiz-play'), {
-                delimiters: [
-                    {left: '$$', right: '$$', display: true},
-                    {left: '$', right: '$', display: false}
-                ]
-            });
+            const nextBtnLabel = document.getElementById('next-btn-label');
+            const nextBtnIcon = document.getElementById('next-btn-icon');
+
+            if (currentIndex === activeQuestions.length - 1) {
+                nextBtnLabel.textContent = "Selesai & Lihat Hasil";
+                nextBtnIcon.className = "fa-solid fa-flag-checkered";
+            } else {
+                nextBtnLabel.textContent = "Soal Berikutnya";
+                nextBtnIcon.className = "fa-solid fa-arrow-right";
+            }
+
+            renderQuestionGrid();
+            renderKatexMath('sec-quiz-play');
+            saveQuizState();
+        }
+
+        function handleSelectOption(selectedIdx) {
+            userAnswers[currentIndex] = selectedIdx;
+            saveQuizState();
+            loadQuestion();
+        }
+
+        function prevQuestion() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentIndex < activeQuestions.length - 1) {
+                currentIndex++;
+                loadQuestion();
+            } else {
+                showResults();
+            }
         }
 
         function toggleHint() {
@@ -898,67 +1186,35 @@
             }
         }
 
-        function handleSelectOption(selectedIdx) {
-            if (userAnswers[currentIndex] !== null) return;
-
-            userAnswers[currentIndex] = selectedIdx;
-            const qData = activeQuestions[currentIndex];
-            const isCorrect = (selectedIdx === qData.ans);
-
-            if (isCorrect) score++;
-
-            // Highlight Options
-            qData.opts.forEach((_, idx) => {
-                const btn = document.getElementById(`opt-btn-${idx}`);
-                btn.onclick = null;
-                btn.classList.remove('hover:border-indigo-500', 'hover:bg-indigo-50/50');
-
-                if (idx === qData.ans) {
-                    btn.className = "w-full text-left p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-900 font-medium flex items-center justify-between shadow-sm";
-                    btn.querySelector('.opt-icon').className = "fa-solid fa-circle-check text-emerald-600 text-xl";
-                } else if (idx === selectedIdx && !isCorrect) {
-                    btn.className = "w-full text-left p-4 rounded-2xl border-2 border-rose-500 bg-rose-50 text-rose-900 font-medium flex items-center justify-between shadow-sm";
-                    btn.querySelector('.opt-icon').className = "fa-solid fa-circle-xmark text-rose-600 text-xl";
-                } else {
-                    btn.className = "w-full text-left p-4 rounded-2xl border-2 border-slate-100 bg-slate-50 text-slate-400 font-medium flex items-center justify-between opacity-50";
-                }
-            });
-
-            // Show Detailed Explanation
-            const expBox = document.getElementById('explanation-box');
-            const expHeader = document.getElementById('explanation-header');
-            const expText = document.getElementById('explanation-text');
-
-            expBox.classList.remove('hidden');
-            if (isCorrect) {
-                expBox.className = "p-5 rounded-2xl space-y-2 text-sm border bg-emerald-50 border-emerald-200 text-emerald-950";
-                expHeader.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> Jawabanmu Tepat!`;
-            } else {
-                expBox.className = "p-5 rounded-2xl space-y-2 text-sm border bg-rose-50 border-rose-200 text-rose-950";
-                expHeader.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-600"></i> Jawaban Kurang Tepat`;
-            }
-
-            expText.innerHTML = `<b>Langkah Pembahasan:</b><br>${qData.exp}`;
-
-            // Enable Next Button
-            const nextBtn = document.getElementById('next-btn');
-            nextBtn.disabled = false;
-            nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-
-            renderMathInElement(expBox, {
-                delimiters: [
-                    {left: '$$', right: '$$', display: true},
-                    {left: '$', right: '$', display: false}
-                ]
-            });
+        function openQuickCheatModal() {
+            document.getElementById('quick-cheat-modal').classList.remove('hidden');
+            renderKatexMath('quick-cheat-modal');
         }
 
-        function nextQuestion() {
-            if (currentIndex < activeQuestions.length - 1) {
-                currentIndex++;
+        function closeQuickCheatModal() {
+            document.getElementById('quick-cheat-modal').classList.add('hidden');
+        }
+
+        function promptResetProgress() {
+            document.getElementById('reset-modal').classList.remove('hidden');
+        }
+
+        function closeResetModal() {
+            document.getElementById('reset-modal').classList.add('hidden');
+        }
+
+        function confirmResetProgress() {
+            localStorage.removeItem(STORAGE_KEY);
+            closeResetModal();
+            userAnswers = new Array(activeQuestions.length).fill(null);
+            currentIndex = 0;
+            checkResumeBanner();
+            
+            const quizPlaySec = document.getElementById('sec-quiz-play');
+            if (!quizPlaySec.classList.contains('hidden')) {
                 loadQuestion();
             } else {
-                showResults();
+                showSection('quiz-select');
             }
         }
 
@@ -978,12 +1234,17 @@
         function showResults() {
             showSection('results');
 
+            let scoreCount = 0;
+            activeQuestions.forEach((q, idx) => {
+                if (userAnswers[idx] === q.ans) scoreCount++;
+            });
+
             const total = activeQuestions.length;
-            const wrong = total - score;
-            const finalScore = Math.round((score / total) * 100);
+            const wrong = total - scoreCount;
+            const finalScore = Math.round((scoreCount / total) * 100);
 
             document.getElementById('result-score-num').textContent = finalScore;
-            document.getElementById('result-correct-count').textContent = score;
+            document.getElementById('result-correct-count').textContent = scoreCount;
             document.getElementById('result-wrong-count').textContent = wrong;
             document.getElementById('result-total-count').textContent = total;
 
@@ -1042,16 +1303,12 @@
                 reviewContainer.appendChild(card);
             });
 
-            renderMathInElement(reviewContainer, {
-                delimiters: [
-                    {left: '$$', right: '$$', display: true},
-                    {left: '$', right: '$', display: false}
-                ]
-            });
+            renderKatexMath(reviewContainer);
         }
 
-        // Initialize view on page load
+        // DOM Content Loaded Initializer
         window.addEventListener('DOMContentLoaded', () => {
+            initCheatSheetViews();
             showSection('home');
         });
     </script>
